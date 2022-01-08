@@ -50,20 +50,19 @@ moves past the opposite edge
 
 ## Block Ideas
 
- * Idea #1
+ * Blocks that require a varying amount of hits to be destroyed
 
- * Idea #2
+ * Blocks that activate certain powerups listed below
 
- * Idea #3
-
-
+ * Blocks that slow down the ball temporarily when hit
+ 
 ## Power-up Ideas
 
- * Idea #1
+ * Spawn an extra ball
 
- * Idea #2
+ * Make paddle longer
 
- * Idea #3
+ * Make your paddle invisible for a few seconds
 
 
 ## Cheat Key Ideas
