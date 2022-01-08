@@ -1,6 +1,5 @@
 # Breakout Plan
-### NAME
-
+### Edison Ooi
 
 #### Examples
 
@@ -27,16 +26,24 @@ You can put links in like this: [Duke CompSci](https://www.cs.duke.edu)
 
 ## Interesting Breakout Variants
 
- * Idea #1
+I thought vortex was particularly interesting because it flipped the basic
+geometry of the Breakout game. It also presents the challenge of having
+to account for all 360 degrees of possible directions the ball could fly
+away vs just one side for the normal variant.
 
- * Idea #2
-
+I also thought Super Breakout was interesting because of the introduction
+of powerups or challenges, such as having multiple balls. I particularly
+like the idea of multiple balls because it introduces a new degree of
+difficulty because of having to keep more balls alive, but also provides
+a game advantage by being able to break more bricks in a short time. Having
+at least 2 balls is something I definitely would want to incorporate into
+my own variation of Breakout.
 
 ## Paddle Ideas
 
- * Idea #1
+ * 
 
- * Idea #2
+ * 
 
 
 ## Block Ideas
