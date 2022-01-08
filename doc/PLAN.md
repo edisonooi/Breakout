@@ -41,9 +41,11 @@ my own variation of Breakout.
 
 ## Paddle Ideas
 
- * 
+ * Toggle a "catch" mode where the paddle will catch and hold the
+ball when in catch mode and bounce like normal when not in catch mode.
 
- * 
+ * Moving the paddle to the opposite side of the screen when it
+moves past the opposite edge
 
 
 ## Block Ideas
