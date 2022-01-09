@@ -67,13 +67,15 @@ moves past the opposite edge
 
 ## Cheat Key Ideas
 
- * Idea #1
+ * Press a key to give an extra life (maximum once per game)
 
- * Idea #2
+ * Press a key to reset the level 
 
- * Idea #3
+ * Press a key to clear the bottom-most layer of bricks (maximum
+once per level)
 
- * Idea #4
+ * Press a key to slow the ball down for a few seconds (maximum
+once per level)
 
 
 ## Level Descriptions
