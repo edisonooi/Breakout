@@ -81,12 +81,70 @@ once per level)
 ## Level Descriptions
 
 ###Level 1
+    5 5 5 5 5 5 5 5
+    
+    4 4 4 4 4 4 4 4
+    
+    3 3 3 B B 3 3 3
+    
+    2 2 2 2 2 2 2 2
+    
+    1 1 1 1 1 1 1 1
+    
+    0 0 0 0 0 0 0 0 
 
+Basic version of Breakout, the number represents a block that takes
+that number of hits to break. The B represents a brick which, when
+broken, spawns another ball. The player won't lose a life until
+all balls go off the screen. The 0's represent the empty space where the
+ball and paddle will spawn.
 
- * Idea #2
+###Level 2
+    0 0 0 3 3 0 0 0
+    
+    0 0 I L L I 0 0
+    
+    0 2 2 2 2 2 2 0
+    
+    2 2 2 2 2 2 2 2
+    
+    1 1 1 1 1 1 1 1
+    
+    0 0 0 0 0 0 0 0
 
- * Idea #3
+Same brick layout rules as the previous level. L is a brick with
+a longer paddle powerup. I is a brick which makes the paddle become
+invisible for a few seconds. 0's are just empty space. The paddle
+and balls will still spawn at the bottom of the scene.
 
+###Level 3
+             Paddle
+    
+       0 0 0 0 0 0 0 0 0 
+    
+       0 0 0 0 0 0 0 0 0 
+    
+    P  0 0 0 0 1 0 0 0 0  P
+    
+    A  0 0 0 1 2 1 0 0 0  A
+     
+    D  0 0 1 2 I 2 1 0 0  D
+    
+    D  0 0 0 1 2 1 0 0 0  D
+    
+    L  0 0 0 0 1 0 0 0 0  L
+    
+    E  0 0 0 0 0 0 0 0 0  E
+    
+       0 0 0 0 0 0 0 0 0
+
+             Paddle
+This level will have four paddles on all sides of the scene. In
+order to pass this level, all bricks will have to be broken. The
+top and bottom paddles will always have the same X coordinates and
+both be controlled by the left and right arrow keys. The same rule
+applies to the left and right paddles, controlled by the up and
+down arrow keys.
 
 ## Class Ideas
 
