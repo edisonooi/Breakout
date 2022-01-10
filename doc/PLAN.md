@@ -80,7 +80,8 @@ once per level)
 
 ## Level Descriptions
 
- * Idea #1
+###Level 1
+
 
  * Idea #2
 
@@ -89,11 +90,30 @@ once per level)
 
 ## Class Ideas
 
- * Idea #1
+###Level
+* Represents a single level in the game, storing block array,
+applicable cheat keys, etc.
+* reset() method which would reset the level back to its
+original state before any blocks were broken
 
- * Idea #2
+###Brick
+* Represents one breakable (or unbreakable) brick in a level,
+stores information on how many hits are needed to break and
+which powerups are offered upon breaking
+* hit() method which would perform the appropriate action to
+the brick when it is hit, either destroying the brick or decreasing
+its number of remaining hits by 1
 
- * Idea #3
+###Ball
+* Represents a ball that is being bounced around in a level,
+stores information on its position, velocity, etc.
+* Methods getX(), getY(), setX(), setY() to control its movement
 
- * Idea #4
+###Scoreboard
+* Represents and encapsulates the information that the in-game
+scoreboard will present, such as number of lives remaining,
+current score, current level, active powerups, etc.
+* reset() method to reset all level statistics back to the
+original state of the level
+
 
