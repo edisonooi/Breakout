@@ -7,6 +7,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 
 /**
  * The class that manages the entire game, including dealing with player
@@ -95,6 +96,11 @@ public class Breakout {
             ballYDirection *= -1;
         }
 
+        // Test for paddle and ball collision
+        if(isIntersecting(myPaddle, myBall)) {
+            ballYDirection *= -1;
+        }
+
     }
 
     // What to do each time a key is pressed
@@ -103,6 +109,11 @@ public class Breakout {
             case RIGHT -> myPaddle.setX(myPaddle.getX() + PADDLE_SPEED);
             case LEFT -> myPaddle.setX(myPaddle.getX() - PADDLE_SPEED);
         }
+    }
+
+    private boolean isIntersecting(Shape a, Shape b) {
+        //If the bounds of both shapes intersect, return true
+        return b.getBoundsInParent().intersects(a.getBoundsInParent());
     }
 
 
