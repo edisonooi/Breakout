@@ -16,8 +16,8 @@ public class Breakout {
     //Default settings for balls
     public static final int BALL_SIZE = 30;
     public static final Paint BALL_COLOR = Color.WHITE;
-    public static final int BALL_X_VELOCITY = 16;
-    public static final int BALL_Y_VELOCITY = 10;
+    public static final int BALL_X_SPEED = 48;
+    public static final int BALL_Y_SPEED = 30;
 
     //Default settings for paddle
     public static final int PADDLE_WIDTH = 50;
@@ -25,6 +25,11 @@ public class Breakout {
     public static final Paint PADDLE_COLOR = Color.WHITE;
 
     private Circle myBall;
+    private int ballXDirection = 1;
+    private int ballYDirection = 1;
+
+    private int sceneWidth;
+    private int sceneHeight;
 
 
     public Scene setupGame(int width, int height, Paint background) {
@@ -39,12 +44,36 @@ public class Breakout {
         //Add subviews to group
         root.getChildren().add(myBall);
 
-        //Create main scene
+        //Create main scene and set instance width and height
         Scene scene = new Scene(root, width, height, background);
+        sceneWidth = width;
+        sceneHeight = height;
 
         return scene;
 
     }
+
+    // Update all properties after a certain time interval
+    // This serves as a way to animate the objects in game
+    public void step(double elapsedTime) {
+        // Update ball position based on its x and y velocities
+        myBall.setCenterX(myBall.getCenterX() + ballXDirection * BALL_X_SPEED * elapsedTime);
+        myBall.setCenterY(myBall.getCenterY() + ballYDirection * BALL_Y_SPEED * elapsedTime);
+
+        // Test for wall collisions
+        if(myBall.getCenterX() - myBall.getRadius() <= 0 ||
+                myBall.getCenterX() + myBall.getRadius() >= sceneWidth) {
+            ballXDirection *= -1;
+        }
+
+        if(myBall.getCenterY() - myBall.getRadius() <= 0 ||
+                myBall.getCenterY() + myBall.getRadius() >= sceneHeight) {
+            ballYDirection *= -1;
+        }
+
+    }
+
+
 
 
 
