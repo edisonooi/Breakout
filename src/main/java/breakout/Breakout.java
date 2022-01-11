@@ -43,13 +43,13 @@ public class Breakout {
 
         //Initialize ball in center of screen
         myBall = new Circle(BALL_SIZE, BALL_COLOR);
-        myBall.setCenterX(width / 2);
-        myBall.setCenterY(height / 2);
+        myBall.setCenterX(width / 2.0);
+        myBall.setCenterY(height / 2.0);
 
         //Initialize paddle toward bottom of screen
         myPaddle = new Rectangle(PADDLE_WIDTH, PADDLE_HEIGHT, PADDLE_COLOR);
-        myPaddle.setX(width / 2 - myPaddle.getWidth() / 2);
-        myPaddle.setY(height - height / 8 - myPaddle.getHeight() / 2);
+        myPaddle.setX(width / 2.0 - myPaddle.getWidth() / 2);
+        myPaddle.setY(height - height / 8.0 - myPaddle.getHeight() / 2);
 
         //Add subviews to group
         root.getChildren().add(myBall);
