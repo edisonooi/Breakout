@@ -53,9 +53,16 @@ public class Breakout {
         myPaddle.setX(width / 2.0 - myPaddle.getWidth() / 2);
         myPaddle.setY(height - height / 8.0 - myPaddle.getHeight() / 2);
 
+        //Display a dummy brick
+        Rectangle myDummyBrick = new Rectangle(30, 30, Color.YELLOW);
+        myDummyBrick.setX(10);
+        myDummyBrick.setY(10);
+
+
         //Add subviews to group
         root.getChildren().add(myBall);
         root.getChildren().add(myPaddle);
+        root.getChildren().add(myDummyBrick);
 
         //Create main scene
         Scene scene = new Scene(root, width, height, background);
