@@ -2,6 +2,7 @@ package breakout;
 
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
@@ -15,7 +16,7 @@ import javafx.scene.shape.Rectangle;
  */
 public class Breakout {
     //Default settings for balls
-    public static final int BALL_SIZE = 30;
+    public static final int BALL_SIZE = 16;
     public static final Paint BALL_COLOR = Color.WHITE;
     public static final int BALL_X_SPEED = 48;
     public static final int BALL_Y_SPEED = 30;
@@ -24,6 +25,7 @@ public class Breakout {
     public static final int PADDLE_WIDTH = 50;
     public static final int PADDLE_HEIGHT = 10;
     public static final Paint PADDLE_COLOR = Color.WHITE;
+    public static final int PADDLE_SPEED = 10;
 
     //Main ball
     private Circle myBall;
@@ -55,8 +57,12 @@ public class Breakout {
         root.getChildren().add(myBall);
         root.getChildren().add(myPaddle);
 
-        //Create main scene and set instance width and height
+        //Create main scene
         Scene scene = new Scene(root, width, height, background);
+        //Respond to input
+        scene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
+
+        //Set width and height for this Breakout instance
         sceneWidth = width;
         sceneHeight = height;
 
@@ -82,6 +88,14 @@ public class Breakout {
             ballYDirection *= -1;
         }
 
+    }
+
+    // What to do each time a key is pressed
+    private void handleKeyInput (KeyCode code) {
+        switch (code) {
+            case RIGHT -> myPaddle.setX(myPaddle.getX() + PADDLE_SPEED);
+            case LEFT -> myPaddle.setX(myPaddle.getX() - PADDLE_SPEED);
+        }
     }
 
 
