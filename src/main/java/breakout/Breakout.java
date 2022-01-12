@@ -19,14 +19,18 @@ public class Breakout {
     //Default settings for balls
     public static final int BALL_SIZE = 16;
     public static final Paint BALL_COLOR = Color.WHITE;
-    public static final int BALL_X_SPEED = 48;
-    public static final int BALL_Y_SPEED = 30;
+    public static final int BALL_X_SPEED = 96;
+    public static final int BALL_Y_SPEED = 60;
 
     //Default settings for paddle
     public static final int PADDLE_WIDTH = 50;
     public static final int PADDLE_HEIGHT = 10;
     public static final Paint PADDLE_COLOR = Color.WHITE;
     public static final int PADDLE_SPEED = 10;
+
+    //Default settings for brick
+    public static final int BRICK_WIDTH = 100;
+    public static final int BRICK_HEIGHT = 100;
 
     //Main ball
     private Circle myBall;
@@ -38,6 +42,9 @@ public class Breakout {
 
     private int sceneWidth;
     private int sceneHeight;
+
+    //Dummy brick
+    private Rectangle myDummyBrick;
 
 
     public Scene setupGame(int width, int height, Paint background) {
@@ -55,7 +62,7 @@ public class Breakout {
         myPaddle.setY(height - height / 8.0 - myPaddle.getHeight() / 2);
 
         //Display a dummy brick
-        Rectangle myDummyBrick = new Rectangle(30, 30, Color.YELLOW);
+        myDummyBrick = new Rectangle(BRICK_WIDTH, BRICK_HEIGHT, Color.YELLOW);
         myDummyBrick.setX(10);
         myDummyBrick.setY(10);
 
@@ -99,6 +106,11 @@ public class Breakout {
         // Test for paddle and ball collision
         if(isIntersecting(myPaddle, myBall)) {
             ballYDirection *= -1;
+        }
+
+        // Test for ball and brick collision
+        if(isIntersecting(myBall, myDummyBrick)) {
+            myBall.setOpacity(0.5);
         }
 
     }
