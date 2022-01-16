@@ -9,7 +9,7 @@ import java.util.Map;
 public class Brick extends Rectangle {
 
     // Maps a brick's durability to its color
-    private static Map<Integer, Color> colorMap = Map.of(
+    private static final Map<Integer, Color> colorMap = Map.of(
             1, Color.WHITE,
             2, Color.YELLOW,
             3, Color.ORANGE,
@@ -102,5 +102,13 @@ public class Brick extends Rectangle {
 
         this.setFill(colorMap.get(remainingDurability));
         return false;
+    }
+
+    /**
+     * Get powerup assigned to this brick
+     * @return brick's powerup
+     */
+    public Powerup getPowerup() {
+        return this.powerup;
     }
 }
