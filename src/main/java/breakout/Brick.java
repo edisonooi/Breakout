@@ -27,42 +27,24 @@ public class Brick extends Rectangle {
         this.width = width;
         this.height = height;
 
-        switch (type) {
-            case "1":
-                durability = 1;
-                break;
-            case "2":
-                durability = 2;
-                break;
-            case "3":
-                durability = 3;
-                break;
-            case "4":
-                durability = 4;
-                break;
-            case "5":
-                durability = 5;
-                break;
-            case "L":
-                durability = 1;
-                break;
-            case "I":
-                durability = 1;
-                break;
-            case "B":
-                durability = 1;
-                break;
-            default:
-                durability = 1;
-        }
+        initializeDurablity(type);
 
         this.color = colorMap.get(this.durability);
-        this.remainingDurability = this.durability;
-
-
     }
 
-
+    private void initializeDurablity(String type) {
+        switch (type) {
+            case "1" -> durability = remainingDurability = 1;
+            case "2" -> durability = remainingDurability = 2;
+            case "3" -> durability = remainingDurability = 3;
+            case "4" -> durability = remainingDurability = 4;
+            case "5" -> durability = remainingDurability = 5;
+            case "L" -> durability = remainingDurability = 1;
+            case "I" -> durability = remainingDurability = 1;
+            case "B" -> durability = remainingDurability = 1;
+            default -> durability = remainingDurability = 1;
+        }
+    }
 
 
 }
