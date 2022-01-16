@@ -21,14 +21,14 @@ import java.util.Set;
  */
 public class Breakout {
     //Default settings for balls
-    public static final int BALL_SIZE = 16;
+    public static final int BALL_SIZE = 12;
     public static final Paint BALL_COLOR = Color.WHITE;
-    public static final int BALL_X_SPEED = 192;
-    public static final int BALL_Y_SPEED = 120;
+    public static final int BALL_X_SPEED = 150;
+    public static final int BALL_Y_SPEED = 100;
 
     //Default settings for paddle
-    public static final int PADDLE_WIDTH = 50;
-    public static final int PADDLE_HEIGHT = 10;
+    public static final int PADDLE_WIDTH = 80;
+    public static final int PADDLE_HEIGHT = 20;
     public static final Paint PADDLE_COLOR = Color.WHITE;
     public static final int PADDLE_SPEED = 10;
 
@@ -64,7 +64,7 @@ public class Breakout {
         myBall.setCenterY(height / 2.0);
 
         //Initialize paddle toward bottom of screen
-        myPaddle = new Paddle(PADDLE_WIDTH, PADDLE_HEIGHT, PADDLE_COLOR);
+        myPaddle = new Paddle(PADDLE_WIDTH, PADDLE_HEIGHT, true, PADDLE_COLOR);
         myPaddle.setX(width / 2.0 - myPaddle.getWidth() / 2);
         myPaddle.setY(height - height / 8.0 - myPaddle.getHeight() / 2);
 
@@ -121,14 +121,23 @@ public class Breakout {
         if(isIntersecting(myBall, myDummyBrick)) {
             myBall.bounce(myDummyBrick, root, myBricks);
         }
+
+        if(myPaddle.getX() >= sceneWidth) {
+            myPaddle.setX(0 - myPaddle.getWidth() / 2);
+        } else if(myPaddle.getX() + myPaddle.getWidth() <= 0) {
+            myPaddle.setX(sceneWidth - myPaddle.getWidth() / 2);
+        }
+
+
     }
 
     // What to do each time a key is pressed
     private void handleKeyInput (KeyCode code) {
-        switch (code) {
-            case RIGHT -> myPaddle.setX(myPaddle.getX() + PADDLE_SPEED);
-            case LEFT -> myPaddle.setX(myPaddle.getX() - PADDLE_SPEED);
-        }
+        myPaddle.move(code);
+//        switch (code) {
+//            case RIGHT -> myPaddle.setX(myPaddle.getX() + PADDLE_SPEED);
+//            case LEFT -> myPaddle.setX(myPaddle.getX() - PADDLE_SPEED);
+//        }
     }
 
     private boolean isIntersecting(Shape a, Shape b) {
