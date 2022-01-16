@@ -18,8 +18,11 @@ public class Brick extends Rectangle {
 
     private int width;
     private int height;
+
     private int durability;
     private int remainingDurability;
+
+    private Powerup powerup;
 
     private Paint color;
 
@@ -28,6 +31,7 @@ public class Brick extends Rectangle {
         this.height = height;
 
         initializeDurablity(type);
+        initializePowerup(type);
 
         this.color = colorMap.get(this.durability);
     }
@@ -43,6 +47,15 @@ public class Brick extends Rectangle {
             case "I" -> durability = remainingDurability = 1;
             case "B" -> durability = remainingDurability = 1;
             default -> durability = remainingDurability = 1;
+        }
+    }
+
+    private void initializePowerup(String type) {
+        switch (type) {
+            case "L" -> powerup = Powerup.LONG_PADDLE;
+            case "I" -> powerup = Powerup.INVISIBLE_PADDLE;
+            case "B" -> powerup = Powerup.EXTRA_BALL;
+            default -> powerup = Powerup.NONE;
         }
     }
 
