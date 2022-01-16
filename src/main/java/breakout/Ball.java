@@ -3,14 +3,15 @@ package breakout;
 import javafx.scene.Group;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 
 import java.util.Set;
 
 public class Ball extends Circle {
     // Instance variables
-    private int xVelocity;
-    private int yVelocity;
+    private double xVelocity;
+    private double yVelocity;
 
     /**
      * Class constructor
@@ -19,7 +20,7 @@ public class Ball extends Circle {
      * @param yVelocity velocity of ball in x direction
      * @param color color of ball
      */
-    public Ball(double radius, int xVelocity, int yVelocity, Paint color) {
+    public Ball(double radius, double xVelocity, double yVelocity, Paint color) {
         super(radius, color);
         this.xVelocity = xVelocity;
         this.yVelocity = yVelocity;
@@ -59,7 +60,30 @@ public class Ball extends Circle {
      * @param rect Rectangle that ball collides with
      */
     private void updateVelocities(Rectangle rect) {
+        double leftX = rect.getX();
+        double rightX = rect.getX() + rect.getWidth();
+        double topY = rect.getY();
+        double bottomY = rect.getY() + rect.getHeight();
 
+        Line leftLine = new Line(leftX, topY, leftX, bottomY);
+        Line rightLine = new Line(rightX, topY, rightX, bottomY);
+        Line topLine = new Line(leftX, topY, rightX, topY);
+        Line bottomLine = new Line(leftX, bottomY, rightX, bottomY);
+
+        if(isIntersectingLine(leftLine) || isIntersectingLine((rightLine))) {
+            this.xVelocity *= -1;
+        } else if(isIntersectingLine(topLine) || isIntersectingLine(bottomLine)) {
+            this.yVelocity *= -1;
+        }
+    }
+
+    /**
+     * Helper method for updateVelocities(), checks if ball is intersecting a given line
+     * @param line line to check ball intersection with
+     * @return boolean that indicates if ball and line are intersecting
+     */
+    private boolean isIntersectingLine(Line line) {
+        return this.getBoundsInParent().intersects(line.getBoundsInParent());
     }
 
 
