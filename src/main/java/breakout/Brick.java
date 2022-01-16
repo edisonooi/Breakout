@@ -16,25 +16,18 @@ public class Brick extends Rectangle {
             5, Color.PURPLE
     );
 
-    private int width;
-    private int height;
-
     private int durability;
     private int remainingDurability;
 
     private Powerup powerup;
 
-    private Paint color;
-
     public Brick(int width, int height, String type) {
-        this.width = width;
-        this.height = height;
+        super(width, height);
 
         initializeDurablity(type);
+        this.setFill(colorMap.get(this.durability));
+
         initializePowerup(type);
-
-        this.color = colorMap.get(this.durability);
-
         setPowerupStyle(powerup);
     }
 
@@ -74,6 +67,7 @@ public class Brick extends Rectangle {
 
         this.setStrokeWidth(this.getWidth() / 10);
     }
+
 
 
 }
