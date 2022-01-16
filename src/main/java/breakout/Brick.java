@@ -8,6 +8,7 @@ import java.util.Map;
 
 public class Brick extends Rectangle {
 
+    // Maps a brick's durability to its color
     private static Map<Integer, Color> colorMap = Map.of(
             1, Color.WHITE,
             2, Color.YELLOW,
@@ -16,11 +17,18 @@ public class Brick extends Rectangle {
             5, Color.PURPLE
     );
 
+    // Instance variables
     private int durability;
     private int remainingDurability;
 
     private Powerup powerup;
 
+    /**
+     * Class constructor
+     * @param width width of brick
+     * @param height height of brick
+     * @param type character representing type of brick
+     */
     public Brick(int width, int height, String type) {
         super(width, height);
 
@@ -31,6 +39,10 @@ public class Brick extends Rectangle {
         setPowerupStyle(powerup);
     }
 
+    /**
+     * Initialize original and remaining durability of brick based on its type
+     * @param type character representing type of brick
+     */
     private void initializeDurablity(String type) {
         switch (type) {
             case "1" -> durability = remainingDurability = 1;
@@ -45,6 +57,10 @@ public class Brick extends Rectangle {
         }
     }
 
+    /**
+     * Assign a powerup to brick based on its type given by brick config file
+     * @param type character representing type of brick
+     */
     private void initializePowerup(String type) {
         switch (type) {
             case "L" -> powerup = Powerup.LONG_PADDLE;
@@ -54,6 +70,10 @@ public class Brick extends Rectangle {
         }
     }
 
+    /**
+     * Draw a stroke around brick if it is a powerup brick
+     * @param powerup the powerup that this brick activates when broken
+     */
     private void setPowerupStyle(Powerup powerup) {
         if(powerup == Powerup.NONE) {
             return;
@@ -68,6 +88,19 @@ public class Brick extends Rectangle {
         this.setStrokeWidth(this.getWidth() / 10);
     }
 
+    /**
+     * Modify brick properties if it has been hit by ball
+     * @return boolean indicating if brick has been broken
+     */
+    public boolean hit() {
+        this.remainingDurability--;
 
+        // Brick has been broken
+        if(remainingDurability == 0) {
+            return true;
+        }
 
+        this.setFill(colorMap.get(remainingDurability));
+        return false;
+    }
 }
