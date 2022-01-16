@@ -34,6 +34,8 @@ public class Brick extends Rectangle {
         initializePowerup(type);
 
         this.color = colorMap.get(this.durability);
+
+        setPowerupStyle(powerup);
     }
 
     private void initializeDurablity(String type) {
@@ -57,6 +59,20 @@ public class Brick extends Rectangle {
             case "B" -> powerup = Powerup.EXTRA_BALL;
             default -> powerup = Powerup.NONE;
         }
+    }
+
+    private void setPowerupStyle(Powerup powerup) {
+        if(powerup == Powerup.NONE) {
+            return;
+        }
+
+        switch (powerup) {
+            case LONG_PADDLE -> this.setStroke(Color.GREEN);
+            case INVISIBLE_PADDLE -> this.setStroke(Color.BROWN);
+            case EXTRA_BALL -> this.setStroke(Color.BLUE);
+        }
+
+        this.setStrokeWidth(this.getWidth() / 10);
     }
 
 
