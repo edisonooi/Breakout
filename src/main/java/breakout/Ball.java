@@ -72,7 +72,8 @@ public class Ball extends Circle {
 
         if(isIntersectingLine(leftLine) || isIntersectingLine((rightLine))) {
             this.xVelocity *= -1;
-        } else if(isIntersectingLine(topLine) || isIntersectingLine(bottomLine)) {
+        }
+        if(isIntersectingLine(topLine) || isIntersectingLine(bottomLine)) {
             this.yVelocity *= -1;
         }
     }
@@ -86,6 +87,19 @@ public class Ball extends Circle {
         return this.getBoundsInParent().intersects(line.getBoundsInParent());
     }
 
+    public double getxVelocity() {
+        return xVelocity;
+    }
 
+    public double getyVelocity() {
+        return yVelocity;
+    }
 
+    public void setxVelocity(double xVelocity) {
+        this.xVelocity = xVelocity;
+    }
+
+    public void setyVelocity(double yVelocity) {
+        this.yVelocity = yVelocity;
+    }
 }
