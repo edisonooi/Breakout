@@ -17,10 +17,10 @@ public class ExtremeLevel extends Level {
 
     @Override
     public void setupChildNodes(Group root, int sceneWidth, int sceneHeight) {
-        leftPaddle = new Paddle(sceneWidth / 20, sceneHeight / 5, false);
-        rightPaddle = new Paddle(sceneWidth / 20, sceneHeight / 5, false);
-        topPaddle = new Paddle(sceneWidth / 5, sceneHeight / 20, true);
-        bottomPaddle = new Paddle(sceneWidth / 5, sceneHeight / 20, true);
+        leftPaddle = new Paddle(sceneWidth / 20.0, sceneHeight / 5.0, false);
+        rightPaddle = new Paddle(sceneWidth / 20.0, sceneHeight / 5.0, false);
+        topPaddle = new Paddle(sceneWidth / 5.0, sceneHeight / 20.0, true);
+        bottomPaddle = new Paddle(sceneWidth / 5.0, sceneHeight / 20.0, true);
     }
 
     @Override
