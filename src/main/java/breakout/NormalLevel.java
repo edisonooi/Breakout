@@ -59,11 +59,11 @@ public class NormalLevel extends Level {
         checkPaddleCollisions();
 
         checkBrickCollisions(myBall);
+        checkWallCollisions(myBall);
         if(extraBallIsActivated) {
             checkBrickCollisions(myExtraBall);
+            checkWallCollisions(myExtraBall);
         }
-
-        checkWallCollisions();
     }
 
     private void moveBalls(double elapsedTime) {
@@ -81,27 +81,6 @@ public class NormalLevel extends Level {
 
         if(Breakout.isIntersecting(myPaddle, myExtraBall)) {
             myExtraBall.bounce(myPaddle);
-        }
-    }
-
-    private void checkBrickCollisions(Ball ball) {
-        for(Brick brick : bricks) {
-            if(Breakout.isIntersecting(brick, ball)) {
-                ball.bounce(brick, levelRoot, bricks);
-                return;
-            }
-        }
-    }
-
-    private void checkWallCollisions() {
-        if(myBall.getCenterX() - myBall.getRadius() <= 0 ||
-                myBall.getCenterX() + myBall.getRadius() >= sceneWidth) {
-            myBall.setxVelocity(myBall.getxVelocity() * -1);
-        }
-
-        if(myBall.getCenterY() - myBall.getRadius() <= 0 ||
-                myBall.getCenterY() + myBall.getRadius() >= sceneHeight) {
-            myBall.setyVelocity(myBall.getyVelocity() * -1);
         }
     }
 }

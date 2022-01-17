@@ -15,21 +15,39 @@ public abstract class Level {
 
     public String blockConfigFile;
     public Set<Brick> bricks;
+    public Group levelRoot;
 
-    public Level(int levelNumber, int lives) {
+    public int sceneWidth;
+    public int sceneHeight;
+
+    public Level(int levelNumber, int lives, Group root, int sceneWidth, int sceneHeight) {
         this.levelNumber = levelNumber;
         this.numLives = lives;
         this.blockConfigFile = "src/main/resources/level" + levelNumber + "config.txt";
-        bricks = new HashSet<>();
+        this.bricks = new HashSet<>();
+        this.levelRoot = root;
+        this.sceneWidth = sceneWidth;
+        this.sceneHeight = sceneHeight;
+
+        setupChildNodes(root, sceneWidth, sceneHeight);
     }
 
     public abstract void handleKeyInput(KeyCode code);
+    public abstract void step(double elapsedTime);
 
-    public abstract void setupChildNodes(Group root, int sceneWidth, int sceneHeight) throws FileNotFoundException;
+    public abstract void setupChildNodes(Group root, int sceneWidth, int sceneHeight);
 
-    public void setupBricks(Group root, int startX, int startY, int endX, int endY) throws FileNotFoundException {
-        File file = new File(blockConfigFile);
-        Scanner sc = new Scanner(file);
+    public void setupBricks(Group root, int startX, int startY, int endX, int endY) {
+        Scanner sc;
+        File file;
+
+        try {
+            file = new File(blockConfigFile);
+            sc = new Scanner(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return;
+        }
 
         // Calculate dimensions of available space for bricks
         int availableWidth = endX - startX;
@@ -59,7 +77,13 @@ public abstract class Level {
 
         String[] bricksInCurrentLine;
 
-        sc = new Scanner(file);
+        try {
+            sc = new Scanner(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return;
+        }
+
         while(sc.hasNextLine()) {
             bricksInCurrentLine = sc.nextLine().split(" ");
 
@@ -81,6 +105,27 @@ public abstract class Level {
         }
 
         sc.close();
+    }
+
+    public void checkBrickCollisions(Ball ball) {
+        for(Brick brick : bricks) {
+            if(Breakout.isIntersecting(brick, ball)) {
+                ball.bounce(brick, levelRoot, bricks);
+                return;
+            }
+        }
+    }
+
+    public void checkWallCollisions(Ball ball) {
+        if(ball.getCenterX() - ball.getRadius() <= 0 ||
+                ball.getCenterX() + ball.getRadius() >= sceneWidth) {
+            ball.setxVelocity(ball.getxVelocity() * -1);
+        }
+
+        if(ball.getCenterY() - ball.getRadius() <= 0 ||
+                ball.getCenterY() + ball.getRadius() >= sceneHeight) {
+            ball.setyVelocity(ball.getyVelocity() * -1);
+        }
     }
 
     public void clear(Group root) {
