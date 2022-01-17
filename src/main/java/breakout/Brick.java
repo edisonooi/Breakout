@@ -29,7 +29,7 @@ public class Brick extends Rectangle {
      * @param height height of brick
      * @param type character representing type of brick
      */
-    public Brick(int width, int height, String type) {
+    public Brick(double width, double height, String type) {
         super(width, height);
 
         initializeDurablity(type);

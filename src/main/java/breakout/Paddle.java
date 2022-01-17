@@ -1,5 +1,6 @@
 package breakout;
 
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.input.KeyCode;
@@ -16,10 +17,9 @@ public class Paddle extends Rectangle {
      * @param width Width of paddle
      * @param height Height of paddle
      * @param isHorizontal Boolean indicating if paddle moves along x-axis
-     * @param color Color of paddle
      */
-    public Paddle(double width, double height, boolean isHorizontal, Paint color) {
-        super(width, height, color);
+    public Paddle(double width, double height, boolean isHorizontal) {
+        super(width, height, Color.WHITE);
         this.isHorizontal = isHorizontal;
     }
 

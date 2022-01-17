@@ -1,11 +1,11 @@
 package breakout;
 
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -16,10 +16,11 @@ public abstract class Level {
     public String blockConfigFile;
     public Set<Brick> bricks;
 
-    public Level(int levelNumber, int lives, String blockConfigFile) {
+    public Level(int levelNumber, int lives) {
         this.levelNumber = levelNumber;
         this.numLives = lives;
-        this.blockConfigFile = blockConfigFile;
+        this.blockConfigFile = "src/main/resources/level" + levelNumber + "config.txt";
+        bricks = new HashSet<>();
     }
 
     public abstract void handleKeyInput(KeyCode code);
@@ -63,13 +64,15 @@ public abstract class Level {
             bricksInCurrentLine = sc.nextLine().split(" ");
 
             for(String brickType : bricksInCurrentLine) {
-                Brick brick = new Brick(brickWidth, brickHeight, brickType);
-                brick.setX(currentX);
-                brick.setY(currentY);
-                root.getChildren().add(brick);
-                this.bricks.add(brick);
+                if(!brickType.equals("0")) {
+                    Brick brick = new Brick(brickWidth, brickHeight, brickType);
+                    brick.setX(currentX);
+                    brick.setY(currentY);
+                    root.getChildren().add(brick);
+                    this.bricks.add(brick);
+                }
 
-                currentX += brick.getWidth() + Breakout.BRICK_PADDING;
+                currentX += brickWidth + Breakout.BRICK_PADDING;
             }
 
             // Reset position trackers

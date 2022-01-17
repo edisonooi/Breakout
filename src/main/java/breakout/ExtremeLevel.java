@@ -13,8 +13,8 @@ public class ExtremeLevel extends Level {
 
     private Ball myBall;
 
-    public ExtremeLevel(int levelNumber, int lives, String blockConfigFile) {
-        super(levelNumber, lives, blockConfigFile);
+    public ExtremeLevel(int levelNumber, int lives) {
+        super(levelNumber, lives);
     }
 
     @Override
