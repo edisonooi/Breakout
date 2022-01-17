@@ -12,14 +12,18 @@ public class NormalLevel extends Level {
     private Ball myBall;
     private Ball myExtraBall;
 
-    public NormalLevel(int levelNumber, int lives) {
-        super(levelNumber, lives);
+    private boolean extraBallIsActivated;
+
+    private Group levelRoot;
+
+    public NormalLevel(int levelNumber, int lives, Group root, int sceneWidth, int sceneHeight) {
+        super(levelNumber, lives, root, sceneWidth, sceneHeight);
 
     }
 
     @Override
-    public void setupChildNodes(Group root, int sceneWidth, int sceneHeight) throws FileNotFoundException {
-        myPaddle = new Paddle(sceneWidth / 5.0, sceneHeight / 20.0, false);
+    public void setupChildNodes(Group root, int sceneWidth, int sceneHeight) {
+        myPaddle = new Paddle(sceneWidth / 5.0, sceneHeight / 20.0, true);
         myPaddle.setX(sceneWidth * 0.5 - myPaddle.getWidth() / 2);
         myPaddle.setY(sceneHeight * 0.9);
 
@@ -33,16 +37,71 @@ public class NormalLevel extends Level {
         myExtraBall.setCenterY(sceneHeight * 0.625);
         myExtraBall.setFill(Color.GOLD);
         myExtraBall.setOpacity(0);
+        extraBallIsActivated = false;
 
         root.getChildren().add(myPaddle);
         root.getChildren().add(myBall);
         root.getChildren().add(myExtraBall);
 
         setupBricks(root, 0, 0, sceneWidth, sceneHeight / 2);
+
+        levelRoot = root;
     }
 
     @Override
     public void handleKeyInput(KeyCode code) {
+        myPaddle.move(code);
+    }
 
+    @Override
+    public void step(double elapsedTime) {
+        moveBalls(elapsedTime);
+        checkPaddleCollisions();
+
+        checkBrickCollisions(myBall);
+        if(extraBallIsActivated) {
+            checkBrickCollisions(myExtraBall);
+        }
+
+        checkWallCollisions();
+    }
+
+    private void moveBalls(double elapsedTime) {
+        myBall.move(elapsedTime);
+
+        if(extraBallIsActivated) {
+            myExtraBall.move(elapsedTime);
+        }
+    }
+
+    private void checkPaddleCollisions() {
+        if(Breakout.isIntersecting(myPaddle, myBall)) {
+            myBall.bounce(myPaddle);
+        }
+
+        if(Breakout.isIntersecting(myPaddle, myExtraBall)) {
+            myExtraBall.bounce(myPaddle);
+        }
+    }
+
+    private void checkBrickCollisions(Ball ball) {
+        for(Brick brick : bricks) {
+            if(Breakout.isIntersecting(brick, ball)) {
+                ball.bounce(brick, levelRoot, bricks);
+                return;
+            }
+        }
+    }
+
+    private void checkWallCollisions() {
+        if(myBall.getCenterX() - myBall.getRadius() <= 0 ||
+                myBall.getCenterX() + myBall.getRadius() >= sceneWidth) {
+            myBall.setxVelocity(myBall.getxVelocity() * -1);
+        }
+
+        if(myBall.getCenterY() - myBall.getRadius() <= 0 ||
+                myBall.getCenterY() + myBall.getRadius() >= sceneHeight) {
+            myBall.setyVelocity(myBall.getyVelocity() * -1);
+        }
     }
 }
