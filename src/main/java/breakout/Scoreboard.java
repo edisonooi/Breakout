@@ -1,8 +1,9 @@
 package breakout;
 
+import javafx.scene.Node;
 import java.util.*;
 
-public class Scoreboard {
+public class Scoreboard extends Node {
     private int score;
     private int livesRemaining;
     private int levelNumber;
@@ -14,6 +15,8 @@ public class Scoreboard {
         this.levelNumber = 1;
         this.activePowerups = new HashSet<>();
     }
+
+
 
 
 
