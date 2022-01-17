@@ -29,6 +29,15 @@ public class Ball extends Circle {
     }
 
     /**
+     * Updates location of ball based on its velocity and elapsed time
+     * @param elapsedTime amount of time that has passed since last game step
+     */
+    public void move(double elapsedTime) {
+        setCenterX(getCenterX() + xVelocity * elapsedTime);
+        setCenterY(getCenterY() + yVelocity * elapsedTime);
+    }
+
+    /**
      * Updates properties of ball and brick upon collision
      * @param brick brick that is colliding with ball
      * @param root Group of Nodes being rendered by scene
