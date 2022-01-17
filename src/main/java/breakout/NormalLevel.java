@@ -1,6 +1,7 @@
 package breakout;
 
 import javafx.scene.Group;
+import javafx.scene.input.KeyCode;
 
 public class NormalLevel extends Level {
 
@@ -13,6 +14,11 @@ public class NormalLevel extends Level {
 
     @Override
     public void setupChildNodes(Group root, int sceneWidth, int sceneHeight) {
+
+    }
+
+    @Override
+    public void handleKeyInput(KeyCode code) {
 
     }
 }
