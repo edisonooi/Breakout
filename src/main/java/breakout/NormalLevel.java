@@ -4,8 +4,6 @@ import javafx.scene.Group;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 
-import java.io.FileNotFoundException;
-
 public class NormalLevel extends Level {
 
     private Paddle myPaddle;
@@ -28,16 +26,8 @@ public class NormalLevel extends Level {
         myPaddle.setY(sceneHeight * 0.9);
 
         myBall = new Ball(150, 100);
-        myBall.setCenterX(sceneWidth * 0.5);
-        myBall.setCenterY(sceneHeight * 0.625);
-
-        //myExtraBall should be invisible and stationary until it is activated
         myExtraBall = new Ball(0, 0);
-        myExtraBall.setCenterX(sceneWidth * 0.5);
-        myExtraBall.setCenterY(sceneHeight * 0.625);
-        myExtraBall.setFill(Color.GOLD);
-        myExtraBall.setOpacity(0);
-        extraBallIsActivated = false;
+        setupBalls();
 
         root.getChildren().add(myPaddle);
         root.getChildren().add(myBall);
@@ -82,5 +72,22 @@ public class NormalLevel extends Level {
         if(Breakout.isIntersecting(myPaddle, myExtraBall)) {
             myExtraBall.bounce(myPaddle);
         }
+    }
+
+    @Override
+    public void setupBalls() {
+        myBall.setCenterX(sceneWidth * 0.5);
+        myBall.setCenterY(sceneHeight * 0.625);
+        myBall.setxVelocity(150);
+        myBall.setyVelocity(100);
+
+        //myExtraBall should be invisible and stationary until it is activated
+        myExtraBall.setCenterX(sceneWidth * 0.5);
+        myExtraBall.setCenterY(sceneHeight * 0.625);
+        myExtraBall.setFill(Color.GOLD);
+        myExtraBall.setOpacity(0);
+        myExtraBall.setxVelocity(0);
+        myExtraBall.setyVelocity(0);
+        extraBallIsActivated = false;
     }
 }

@@ -37,6 +37,8 @@ public abstract class Level {
 
     public abstract void setupChildNodes(Group root, int sceneWidth, int sceneHeight);
 
+    public abstract void setupBalls();
+
     public void setupBricks(Group root, int startX, int startY, int endX, int endY) {
         Scanner sc;
         File file;
