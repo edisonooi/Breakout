@@ -1,6 +1,7 @@
 package breakout;
 
 import javafx.scene.Group;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -9,19 +10,20 @@ import javafx.scene.shape.Rectangle;
 import java.util.Set;
 
 public class Ball extends Circle {
+    // Constants
+    public static final int DEFAULT_RADIUS = 16;
+    private static final Paint DEFAULT_COLOR = Color.WHITE;
     // Instance variables
     private double xVelocity;
     private double yVelocity;
 
     /**
      * Class constructor
-     * @param radius radius of ball, in pixels
      * @param xVelocity velocity of ball in x direction
      * @param yVelocity velocity of ball in x direction
-     * @param color color of ball
      */
-    public Ball(double radius, double xVelocity, double yVelocity, Paint color) {
-        super(radius, color);
+    public Ball(double xVelocity, double yVelocity) {
+        super(DEFAULT_RADIUS, DEFAULT_COLOR);
         this.xVelocity = xVelocity;
         this.yVelocity = yVelocity;
     }
@@ -86,6 +88,8 @@ public class Ball extends Circle {
     private boolean isIntersectingLine(Line line) {
         return this.getBoundsInParent().intersects(line.getBoundsInParent());
     }
+
+    // GETTERS AND SETTERS
 
     public double getxVelocity() {
         return xVelocity;
