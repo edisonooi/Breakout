@@ -3,8 +3,6 @@ package breakout;
 import javafx.scene.Group;
 import javafx.scene.input.KeyCode;
 
-import java.io.FileNotFoundException;
-
 public class ExtremeLevel extends Level {
     private Paddle leftPaddle;
     private Paddle rightPaddle;
@@ -36,8 +34,7 @@ public class ExtremeLevel extends Level {
         bottomPaddle.setY(sceneHeight * 0.9);
 
         myBall = new Ball(150, 100);
-        myBall.setCenterX(sceneWidth * 0.5);
-        myBall.setCenterY(sceneHeight * 0.2);
+        setupBalls();
 
         root.getChildren().add(leftPaddle);
         root.getChildren().add(rightPaddle);
@@ -75,5 +72,13 @@ public class ExtremeLevel extends Level {
         } else if (Breakout.isIntersecting(bottomPaddle, myBall)) {
             myBall.bounce(bottomPaddle);
         }
+    }
+
+    @Override
+    public void setupBalls() {
+        myBall.setCenterX(sceneWidth * 0.5);
+        myBall.setCenterY(sceneHeight * 0.2);
+        myBall.setxVelocity(150);
+        myBall.setyVelocity(100);
     }
 }
