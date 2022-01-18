@@ -111,4 +111,8 @@ public class Brick extends Rectangle {
     public Powerup getPowerup() {
         return this.powerup;
     }
+
+    public int getDurability() {
+        return this.durability;
+    }
 }
