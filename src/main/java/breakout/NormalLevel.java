@@ -21,7 +21,7 @@ public class NormalLevel extends Level {
 
     @Override
     public void setupChildNodes(Group root, int sceneWidth, int sceneHeight) {
-        myPaddle = new Paddle(sceneWidth / 5.0, sceneHeight / 20.0, true);
+        myPaddle = new Paddle(sceneWidth / 5.0, sceneHeight / 25.0, true);
         myPaddle.setX(sceneWidth * 0.5 - myPaddle.getWidth() / 2);
         myPaddle.setY(sceneHeight * 0.9);
 
@@ -45,15 +45,14 @@ public class NormalLevel extends Level {
 
     @Override
     public void step(double elapsedTime) {
-        moveBalls(elapsedTime);
         checkPaddleCollisions();
-
         checkBrickCollisions(myBall);
         checkWallCollisions(myBall);
         if(extraBallIsActivated) {
             checkBrickCollisions(myExtraBall);
             checkWallCollisions(myExtraBall);
         }
+        moveBalls(elapsedTime);
     }
 
     private void moveBalls(double elapsedTime) {

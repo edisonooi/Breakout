@@ -17,21 +17,21 @@ public class ExtremeLevel extends Level {
 
     @Override
     public void setupChildNodes(Group root, int sceneWidth, int sceneHeight) {
-        leftPaddle = new Paddle(sceneWidth / 20.0, sceneHeight / 5.0, false);
-        leftPaddle.setX(sceneWidth * 0.1 - leftPaddle.getWidth());
+        leftPaddle = new Paddle(sceneWidth / 25.0, sceneHeight / 5.0, false);
+        leftPaddle.setX(sceneWidth * 0.05 - leftPaddle.getWidth());
         leftPaddle.setY(sceneHeight * 0.5 - leftPaddle.getHeight() / 2);
 
-        rightPaddle = new Paddle(sceneWidth / 20.0, sceneHeight / 5.0, false);
-        rightPaddle.setX(sceneWidth * 0.9);
+        rightPaddle = new Paddle(sceneWidth / 25.0, sceneHeight / 5.0, false);
+        rightPaddle.setX(sceneWidth * 0.95);
         rightPaddle.setY(sceneHeight * 0.5 - rightPaddle.getHeight() / 2);
 
-        topPaddle = new Paddle(sceneWidth / 5.0, sceneHeight / 20.0, true);
+        topPaddle = new Paddle(sceneWidth / 5.0, sceneHeight / 25.0, true);
         topPaddle.setX(sceneWidth * 0.5 - topPaddle.getWidth() / 2);
-        topPaddle.setY(sceneHeight * 0.1 - topPaddle.getHeight());
+        topPaddle.setY(sceneHeight * 0.05 - topPaddle.getHeight());
 
-        bottomPaddle = new Paddle(sceneWidth / 5.0, sceneHeight / 20.0, true);
+        bottomPaddle = new Paddle(sceneWidth / 5.0, sceneHeight / 25.0, true);
         bottomPaddle.setX(sceneWidth * 0.5 - bottomPaddle.getWidth() / 2);
-        bottomPaddle.setY(sceneHeight * 0.9);
+        bottomPaddle.setY(sceneHeight * 0.95);
 
         myBall = new Ball(150, 100);
         setupBalls();

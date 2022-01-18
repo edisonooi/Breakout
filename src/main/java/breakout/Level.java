@@ -130,12 +130,16 @@ public abstract class Level {
         }
     }
 
-    public void clear(Group root) {
-        root.getChildren().removeIf(child -> !(child instanceof Scoreboard));
+    public void clear() {
+        levelRoot.getChildren().removeIf(child -> !(child instanceof Scoreboard));
     }
 
     public Set<Brick> getBricks() {
         return this.bricks;
+    }
+
+    public boolean isFinished() {
+        return this.bricks.isEmpty();
     }
 
 

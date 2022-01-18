@@ -24,13 +24,10 @@ public class Breakout {
     // How much space to put between each brick
     public static final int BRICK_PADDING = 5;
 
-
     private Group root;
 
     private Level currentLevel;
-    private int currentLevelIndex;
-    private Level[] levels;
-
+    private int currentLevelNum;
 
     private int sceneWidth;
     private int sceneHeight;
@@ -39,16 +36,15 @@ public class Breakout {
         //Top level collection that encapsulates all subviews in scene
         root = new Group();
 
-        Level level1 = new NormalLevel(2, 3);
-        try {
-            level1.setupChildNodes(root, width, height);
-        } catch (FileNotFoundException e) {
-            System.out.println(e);
-            return null;
-        }
+        currentLevelNum = 2;
+
+        Level level1 = new NormalLevel(2, 3, root, width, height);
+//        Level level2 = new NormalLevel(2, 3, root, width, height);
+//        Level level3 = new ExtremeLevel(3, 5, root, width, height);
+
+        //levels = new Level[]{level1, level2, level3};
 
         currentLevel = level1;
-
 
         //Create main scene
         Scene scene = new Scene(root, width, height, background);
@@ -60,12 +56,24 @@ public class Breakout {
         sceneHeight = height;
 
         return scene;
-
     }
 
     // Update all properties after a certain time interval
     // This serves as a way to animate the objects in game
     public void step(double elapsedTime) {
+        currentLevel.step(elapsedTime);
+
+        if(currentLevel.isFinished()) {
+            if(currentLevelNum >= 3) {
+                return;
+            } else {
+                currentLevelNum++;
+                goToLevel(currentLevelNum);
+            }
+        }
+
+
+
         // Update ball position based on its x and y velocities
 //        myBall.setCenterX(myBall.getCenterX() + myBall.getxVelocity() * elapsedTime);
 //        myBall.setCenterY(myBall.getCenterY() + myBall.getyVelocity() * elapsedTime);
@@ -105,8 +113,18 @@ public class Breakout {
 
     }
 
-    private boolean isIntersecting(Shape a, Shape b) {
+    private void goToLevel(int level) {
+        currentLevel.clear();
+
+        switch(currentLevelNum) {
+            case 1 -> currentLevel = new NormalLevel(1, 3, root, sceneWidth, sceneHeight);
+            case 2 -> currentLevel = new NormalLevel(2, 3, root, sceneWidth, sceneHeight);
+            default -> currentLevel = new ExtremeLevel(3, 5, root, sceneWidth, sceneHeight);
+        }
+    }
+
+    public static boolean isIntersecting(Shape a, Shape b) {
         //If the bounds of both shapes intersect, return true
-        return b.getBoundsInParent().intersects(a.getBoundsInParent());
+        return b.getBoundsInLocal().intersects(a.getBoundsInLocal());
     }
 }
