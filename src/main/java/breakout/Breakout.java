@@ -36,20 +36,15 @@ public class Breakout {
         //Top level collection that encapsulates all subviews in scene
         root = new Group();
 
-        currentLevelNum = 2;
-
-        Level level1 = new NormalLevel(2, 3, root, width, height);
-//        Level level2 = new NormalLevel(2, 3, root, width, height);
-//        Level level3 = new ExtremeLevel(3, 5, root, width, height);
-
-        //levels = new Level[]{level1, level2, level3};
-
+        //Initialize first level
+        currentLevelNum = 1;
+        Level level1 = new NormalLevel(1, 3, root, width, height);
         currentLevel = level1;
 
         //Create main scene
         Scene scene = new Scene(root, width, height, background);
         //Respond to input
-        scene.setOnKeyPressed(e -> currentLevel.handleKeyInput(e.getCode()));
+        scene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
 
         //Set width and height for this Breakout instance
         sceneWidth = width;
@@ -72,49 +67,27 @@ public class Breakout {
             }
         }
 
+    }
 
-
-        // Update ball position based on its x and y velocities
-//        myBall.setCenterX(myBall.getCenterX() + myBall.getxVelocity() * elapsedTime);
-//        myBall.setCenterY(myBall.getCenterY() + myBall.getyVelocity() * elapsedTime);
-//
-//        // Test for wall collisions
-//        if(myBall.getCenterX() - myBall.getRadius() <= 0 ||
-//                myBall.getCenterX() + myBall.getRadius() >= sceneWidth) {
-//            myBall.setxVelocity(myBall.getxVelocity() * -1);
-//        }
-//
-//        if(myBall.getCenterY() - myBall.getRadius() <= 0 ||
-//                myBall.getCenterY() + myBall.getRadius() >= sceneHeight) {
-//            myBall.setyVelocity(myBall.getyVelocity() * -1);
-//        }
-//
-//        // Test for paddle and ball collision
-//        if(isIntersecting(myPaddle, myBall)) {
-//            myBall.bounce(myPaddle);
-//        }
-//
-//        // Test for ball and brick collision
-//        if(isIntersecting(myBall, myDummyBrick)) {
-//            myBall.bounce(myDummyBrick, root, myBricks);
-//        }
-//
-//        if(myPaddle.getX() >= sceneWidth) {
-//            myPaddle.setX(0 - myPaddle.getWidth() / 2);
-//        } else if(myPaddle.getX() + myPaddle.getWidth() <= 0) {
-//            myPaddle.setX(sceneWidth - myPaddle.getWidth() / 2);
-//        }
-//        if(level.brick.isempty) {
-//            level.clear;
-//            levelCount++
-//
-//
-//        }
+    public void handleKeyInput(KeyCode code) {
+        switch (code) {
+            case DIGIT1 -> goToLevel(1);
+            case DIGIT2 -> goToLevel(2);
+            case DIGIT3 -> goToLevel(3);
+            case DIGIT4 -> goToLevel(3);
+            case DIGIT5 -> goToLevel(3);
+            case DIGIT6 -> goToLevel(3);
+            case DIGIT7 -> goToLevel(3);
+            case DIGIT8 -> goToLevel(3);
+            case DIGIT9 -> goToLevel(3);
+            default -> currentLevel.handleKeyInput(code);
+        }
 
     }
 
     private void goToLevel(int level) {
         currentLevel.clear();
+        currentLevelNum = level;
 
         switch(currentLevelNum) {
             case 1 -> currentLevel = new NormalLevel(1, 3, root, sceneWidth, sceneHeight);
