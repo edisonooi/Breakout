@@ -5,9 +5,7 @@ import javafx.scene.input.KeyCode;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.HashSet;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
 public abstract class Level {
     public int levelNumber;
@@ -17,26 +15,41 @@ public abstract class Level {
     public boolean failed;
 
     public boolean fastPaddleCheatHasBeenUsed;
+    public boolean fastPaddleCheatIsActive;
     public boolean slowBallCheatIsActive;
+    public boolean invisiblePaddleIsActive;
+    public boolean extraBallIsActive;
+    public boolean longPaddleIsActive;
 
     public String blockConfigFile;
     public Set<Brick> bricks;
     public Group levelRoot;
+    public Scoreboard scoreboard;
 
     public int sceneWidth;
     public int sceneHeight;
 
-    public Level(int levelNumber, int lives, Group root, int sceneWidth, int sceneHeight) {
+    public Level(int levelNumber, int lives, Group root, int sceneWidth, int sceneHeight, Scoreboard scoreboard) {
         this.levelNumber = levelNumber;
         this.numLives = this.numRemainingLives = lives;
+
         this.blockConfigFile = "src/main/resources/level" + levelNumber + "config.txt";
         this.bricks = new HashSet<>();
+
         this.levelRoot = root;
+        this.scoreboard = scoreboard;
+
         this.sceneWidth = sceneWidth;
         this.sceneHeight = sceneHeight;
+
         this.failed = false;
+
         this.fastPaddleCheatHasBeenUsed = false;
+        this.fastPaddleCheatIsActive = false;
         this.slowBallCheatIsActive = false;
+        this.extraBallIsActive = false;
+        this.longPaddleIsActive = false;
+        this.invisiblePaddleIsActive = false;
 
         setupChildNodes(root, sceneWidth, sceneHeight);
     }
@@ -129,6 +142,32 @@ public abstract class Level {
         }
     }
 
+    public List<String> getActivePowerups() {
+        List<String> activePowerups = new ArrayList<>();
+
+        if(fastPaddleCheatIsActive) {
+            activePowerups.add("Fast Paddle");
+        }
+
+        if(slowBallCheatIsActive) {
+            activePowerups.add("Slow Ball");
+        }
+
+        if(extraBallIsActive) {
+            activePowerups.add("Extra Ball");
+        }
+
+        if(longPaddleIsActive) {
+            activePowerups.add("Long Paddle");
+        }
+
+        if(invisiblePaddleIsActive) {
+            activePowerups.add("Invisible Paddle");
+        }
+
+        return activePowerups;
+    }
+
     public void loseLife() {
         this.numRemainingLives--;
 
@@ -159,8 +198,4 @@ public abstract class Level {
     public boolean isFinished() {
         return this.bricks.isEmpty();
     }
-
-
-
-
 }
