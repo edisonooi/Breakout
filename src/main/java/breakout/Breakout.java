@@ -24,6 +24,8 @@ public class Breakout {
     // How much space to put between each brick
     public static final int BRICK_PADDING = 5;
     public static final int INVIS_PADDLE_DURATION = 2000;
+    public static final int FAST_PADDLE_DURATION = 5000;
+    public static final int SLOW_BALL_DURATION = 5000;
 
     private Group root;
 
@@ -84,6 +86,13 @@ public class Breakout {
             case DIGIT8 -> goToLevel(3);
             case DIGIT9 -> goToLevel(3);
             case R -> currentLevel.reset();
+            case C -> {
+                if (currentLevelNum >= 3) {
+                    showEndScreen(true);
+                } else {
+                    goToLevel(++currentLevelNum);
+                }
+            }
             default -> currentLevel.handleKeyInput(code);
         }
     }
