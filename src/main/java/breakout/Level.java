@@ -12,6 +12,9 @@ import java.util.Set;
 public abstract class Level {
     public int levelNumber;
     public int numLives;
+    public int numRemainingLives;
+
+    public boolean failed;
 
     public String blockConfigFile;
     public Set<Brick> bricks;
@@ -22,12 +25,13 @@ public abstract class Level {
 
     public Level(int levelNumber, int lives, Group root, int sceneWidth, int sceneHeight) {
         this.levelNumber = levelNumber;
-        this.numLives = lives;
+        this.numLives = this.numRemainingLives = lives;
         this.blockConfigFile = "src/main/resources/level" + levelNumber + "config.txt";
         this.bricks = new HashSet<>();
         this.levelRoot = root;
         this.sceneWidth = sceneWidth;
         this.sceneHeight = sceneHeight;
+        this.failed = false;
 
         setupChildNodes(root, sceneWidth, sceneHeight);
     }
@@ -118,24 +122,17 @@ public abstract class Level {
         }
     }
 
-    public void checkWallCollisions(Ball ball) {
-        if(ball.getCenterX() - ball.getRadius() <= 0 ||
-                ball.getCenterX() + ball.getRadius() >= sceneWidth) {
-            ball.setxVelocity(ball.getxVelocity() * -1);
-        }
-
-        if(ball.getCenterY() - ball.getRadius() <= 0 ||
-                ball.getCenterY() + ball.getRadius() >= sceneHeight) {
-            ball.setyVelocity(ball.getyVelocity() * -1);
-        }
+    public void reset() {
+        clear();
+        setupChildNodes(levelRoot, sceneWidth, sceneHeight);
     }
 
     public void clear() {
         levelRoot.getChildren().removeIf(child -> !(child instanceof Scoreboard));
     }
 
-    public Set<Brick> getBricks() {
-        return this.bricks;
+    public boolean didFail() {
+        return this.failed;
     }
 
     public boolean isFinished() {

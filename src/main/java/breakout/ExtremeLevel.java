@@ -75,6 +75,15 @@ public class ExtremeLevel extends Level {
         }
     }
 
+    public void checkWallCollisions(Ball ball) {
+        if(ball.getCenterX() <= 0
+                || ball.getCenterX() >= sceneWidth
+                || ball.getCenterY() <= 0
+                || ball.getCenterY() >= sceneHeight) {
+            loseLife();
+        }
+    }
+
     private void checkPaddleWarping() {
         if(topPaddle.getX() >= sceneWidth) {
             topPaddle.setX(0 - topPaddle.getWidth() / 2);
@@ -97,5 +106,16 @@ public class ExtremeLevel extends Level {
         myBall.setCenterY(sceneHeight * 0.2);
         myBall.setxVelocity(150);
         myBall.setyVelocity(100);
+    }
+
+    private void loseLife() {
+        this.numRemainingLives--;
+
+        if(this.numRemainingLives == 0) {
+            this.failed = true;
+            return;
+        }
+
+        setupBalls();
     }
 }

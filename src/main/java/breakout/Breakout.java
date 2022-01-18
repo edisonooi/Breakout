@@ -60,11 +60,15 @@ public class Breakout {
 
         if(currentLevel.isFinished()) {
             if(currentLevelNum >= 3) {
+
                 return;
             } else {
                 currentLevelNum++;
                 goToLevel(currentLevelNum);
             }
+        } else if (currentLevel.didFail()) {
+            //End game
+            return;
         }
 
     }
@@ -80,6 +84,7 @@ public class Breakout {
             case DIGIT7 -> goToLevel(3);
             case DIGIT8 -> goToLevel(3);
             case DIGIT9 -> goToLevel(3);
+            case R -> currentLevel.reset();
             default -> currentLevel.handleKeyInput(code);
         }
 

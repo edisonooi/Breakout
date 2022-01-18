@@ -40,6 +40,9 @@ public class NormalLevel extends Level {
 
     @Override
     public void handleKeyInput(KeyCode code) {
+        if(code == KeyCode.R) {
+            reset();
+        }
         myPaddle.move(code);
     }
 
@@ -77,6 +80,18 @@ public class NormalLevel extends Level {
         }
     }
 
+    public void checkWallCollisions(Ball ball) {
+        if(ball.getCenterX() - ball.getRadius() <= 0 ||
+                ball.getCenterX() + ball.getRadius() >= sceneWidth) {
+            ball.setxVelocity(ball.getxVelocity() * -1);
+        }
+
+        if(ball.getCenterY() - ball.getRadius() <= 0 ||
+                ball.getCenterY() + ball.getRadius() >= sceneHeight) {
+            ball.setyVelocity(ball.getyVelocity() * -1);
+        }
+    }
+
     private void checkPaddleWarping() {
         if(myPaddle.getX() >= sceneWidth) {
             myPaddle.setX(0 - myPaddle.getWidth() / 2);
@@ -101,4 +116,17 @@ public class NormalLevel extends Level {
         myExtraBall.setyVelocity(0);
         extraBallIsActivated = false;
     }
+
+    private void loseLife() {
+        this.numRemainingLives--;
+
+        if(this.numRemainingLives == 0) {
+            this.failed = true;
+            return;
+        }
+
+        setupBalls();
+    }
+
+
 }
