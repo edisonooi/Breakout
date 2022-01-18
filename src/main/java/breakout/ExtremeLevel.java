@@ -1,7 +1,10 @@
 package breakout;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.scene.Group;
 import javafx.scene.input.KeyCode;
+import javafx.util.Duration;
 
 public class ExtremeLevel extends Level {
     private Paddle leftPaddle;
@@ -110,16 +113,32 @@ public class ExtremeLevel extends Level {
 
     @Override
     public void handlePowerup(Powerup powerup) {
+        if(powerup == Powerup.NONE) {
+            return;
+        }
+
         if(powerup == Powerup.INVISIBLE_PADDLE) {
             topPaddle.setOpacity(0);
             bottomPaddle.setOpacity(0);
             leftPaddle.setOpacity(0);
             rightPaddle.setOpacity(0);
+
+            Timeline timeline =
+                    new Timeline(new KeyFrame(Duration.millis(Breakout.INVIS_PADDLE_DURATION), e -> makePaddlesVisible()));
+            timeline.setCycleCount(1);
+            timeline.play();
         } else if (powerup == Powerup.LONG_PADDLE) {
             topPaddle.setWidth(topPaddle.getWidth() * 1.5);
             bottomPaddle.setWidth(bottomPaddle.getWidth() * 1.5);
             leftPaddle.setHeight(leftPaddle.getHeight() * 1.5);
             rightPaddle.setHeight(rightPaddle.getHeight() * 1.5);
         }
+    }
+
+    private void makePaddlesVisible() {
+        topPaddle.setOpacity(1);
+        bottomPaddle.setOpacity(1);
+        leftPaddle.setOpacity(1);
+        rightPaddle.setOpacity(1);
     }
 }

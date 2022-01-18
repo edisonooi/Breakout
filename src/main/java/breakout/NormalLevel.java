@@ -1,8 +1,12 @@
 package breakout;
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.scene.Group;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
+import javafx.util.Duration;
 
 public class NormalLevel extends Level {
 
@@ -72,10 +76,18 @@ public class NormalLevel extends Level {
 
     @Override
     public void handlePowerup(Powerup powerup) {
+        if(powerup == Powerup.NONE) {
+            return;
+        }
+
         if(powerup == Powerup.EXTRA_BALL) {
             activateExtraBall();
         } else if (powerup == Powerup.INVISIBLE_PADDLE) {
-
+            myPaddle.setOpacity(0.5);
+            Timeline timeline =
+                    new Timeline(new KeyFrame(Duration.millis(Breakout.INVIS_PADDLE_DURATION), e -> myPaddle.setOpacity(1)));
+            timeline.setCycleCount(1);
+            timeline.play();
         } else if (powerup == Powerup.LONG_PADDLE) {
             myPaddle.setWidth(myPaddle.getWidth() * 1.5);
         }

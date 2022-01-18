@@ -23,6 +23,7 @@ import java.util.Set;
 public class Breakout {
     // How much space to put between each brick
     public static final int BRICK_PADDING = 5;
+    public static final int INVIS_PADDLE_DURATION = 2000;
 
     private Group root;
 
