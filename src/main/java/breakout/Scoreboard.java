@@ -42,4 +42,8 @@ public class Scoreboard extends Text {
     public void updateScore(int pointsToAdd) {
         score += pointsToAdd;
     }
+
+    public int getScore() {
+        return this.score;
+    }
 }
