@@ -107,4 +107,19 @@ public class ExtremeLevel extends Level {
         myBall.setxVelocity(150);
         myBall.setyVelocity(100);
     }
+
+    @Override
+    public void handlePowerup(Powerup powerup) {
+        if(powerup == Powerup.INVISIBLE_PADDLE) {
+            topPaddle.setOpacity(0);
+            bottomPaddle.setOpacity(0);
+            leftPaddle.setOpacity(0);
+            rightPaddle.setOpacity(0);
+        } else if (powerup == Powerup.LONG_PADDLE) {
+            topPaddle.setWidth(topPaddle.getWidth() * 1.5);
+            bottomPaddle.setWidth(bottomPaddle.getWidth() * 1.5);
+            leftPaddle.setHeight(leftPaddle.getHeight() * 1.5);
+            rightPaddle.setHeight(rightPaddle.getHeight() * 1.5);
+        }
+    }
 }

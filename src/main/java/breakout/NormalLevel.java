@@ -70,6 +70,17 @@ public class NormalLevel extends Level {
         }
     }
 
+    @Override
+    public void handlePowerup(Powerup powerup) {
+        if(powerup == Powerup.EXTRA_BALL) {
+            activateExtraBall();
+        } else if (powerup == Powerup.INVISIBLE_PADDLE) {
+
+        } else if (powerup == Powerup.LONG_PADDLE) {
+            myPaddle.setWidth(myPaddle.getWidth() * 1.5);
+        }
+    }
+
     private void checkPaddleCollisions() {
         if(Breakout.isIntersecting(myPaddle, myBall)) {
             myBall.bounce(myPaddle);
@@ -118,5 +129,12 @@ public class NormalLevel extends Level {
         myExtraBall.setxVelocity(0);
         myExtraBall.setyVelocity(0);
         extraBallIsActivated = false;
+    }
+
+    private void activateExtraBall() {
+        myExtraBall.setOpacity(1);
+        myExtraBall.setxVelocity(-160);
+        myExtraBall.setyVelocity(100);
+        extraBallIsActivated = true;
     }
 }
