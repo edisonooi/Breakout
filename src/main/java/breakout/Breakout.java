@@ -60,15 +60,13 @@ public class Breakout {
 
         if(currentLevel.isFinished()) {
             if(currentLevelNum >= 3) {
-
-                return;
+                showEndScreen(true);
             } else {
                 currentLevelNum++;
                 goToLevel(currentLevelNum);
             }
         } else if (currentLevel.didFail()) {
-            //End game
-            return;
+            showEndScreen(false);
         }
 
     }
@@ -87,7 +85,6 @@ public class Breakout {
             case R -> currentLevel.reset();
             default -> currentLevel.handleKeyInput(code);
         }
-
     }
 
     private void goToLevel(int level) {
@@ -99,6 +96,10 @@ public class Breakout {
             case 2 -> currentLevel = new NormalLevel(2, 3, root, sceneWidth, sceneHeight);
             default -> currentLevel = new ExtremeLevel(3, 5, root, sceneWidth, sceneHeight);
         }
+    }
+
+    private void showEndScreen(boolean didWin) {
+        root.getChildren().clear();
     }
 
     public static boolean isIntersecting(Shape a, Shape b) {
