@@ -25,13 +25,17 @@ public class Scoreboard extends Text {
     }
 
     public void refreshText(Level currentLevel) {
-        activePowerups.clear();
-        if(currentLevel.slowBallCheatIsActive) {
+        activePowerups = currentLevel.getActivePowerups();
 
+        StringBuilder powerupString = new StringBuilder("");
+
+        for(String powerup : activePowerups) {
+            powerupString.append(powerup);
+            powerupString.append(", ");
         }
 
         scoreboardText = String.format("\nLevel: %d\nScore: %d\nLives: %d\nActive Powerups: %s\n",
-                currentLevel.levelNumber, score, currentLevel.numRemainingLives, "Bruh");
+                currentLevel.levelNumber, score, currentLevel.numRemainingLives, powerupString);
         setText(scoreboardText);
 
     }
