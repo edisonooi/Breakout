@@ -48,18 +48,5 @@ public class Main extends Application {
         animation.setCycleCount(Timeline.INDEFINITE);
         animation.getKeyFrames().add(new KeyFrame(Duration.seconds(SECOND_DELAY), e -> myBreakout.step(SECOND_DELAY)));
         animation.play();
-
-
-//        Circle shape = new Circle(190, 190, 20);
-//        shape.setFill(Color.LIGHTSTEELBLUE);
-//
-//        Group root = new Group();
-//        root.getChildren().add(shape);
-//
-//        Scene scene = new Scene(root, SIZE, SIZE, Color.DARKBLUE);
-//        stage.setScene(scene);
-//
-//        stage.setTitle(TITLE);
-//        stage.show();
     }
 }
