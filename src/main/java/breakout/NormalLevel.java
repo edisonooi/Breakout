@@ -17,15 +17,15 @@ public class NormalLevel extends Level {
 
     private Group levelRoot;
 
-    public NormalLevel(int levelNumber, int lives, Group root, int sceneWidth, int sceneHeight) {
-        super(levelNumber, lives, root, sceneWidth, sceneHeight);
+    public NormalLevel(int levelNumber, int lives, Group root, int sceneWidth, int sceneHeight, Scoreboard scoreboard) {
+        super(levelNumber, lives, root, sceneWidth, sceneHeight, scoreboard);
     }
 
     @Override
     public void setupChildNodes(Group root, int sceneWidth, int sceneHeight) {
         myPaddle = new Paddle(sceneWidth / 5.0, sceneHeight / 25.0, true);
         myPaddle.setX(sceneWidth * 0.5 - myPaddle.getWidth() / 2);
-        myPaddle.setY(sceneHeight * 0.9);
+        myPaddle.setY(sceneHeight * 0.9 + Breakout.SCOREBOARD_HEIGHT);
 
         myBall = new Ball(150, 100);
         myExtraBall = new Ball(0, 0);
@@ -35,7 +35,7 @@ public class NormalLevel extends Level {
         root.getChildren().add(myBall);
         root.getChildren().add(myExtraBall);
 
-        setupBricks(root, 0, 0, sceneWidth, sceneHeight / 2);
+        setupBricks(root, 0, Breakout.SCOREBOARD_HEIGHT, sceneWidth, sceneHeight / 2 + Breakout.SCOREBOARD_HEIGHT);
 
         levelRoot = root;
     }
@@ -90,6 +90,7 @@ public class NormalLevel extends Level {
         }
 
         moveBalls(elapsedTime);
+        scoreboard.refreshText(this);
     }
 
     private void moveBalls(double elapsedTime) {
@@ -130,7 +131,7 @@ public class NormalLevel extends Level {
     }
 
     public void checkWallCollisions(Ball ball) {
-        if(ball.getCenterY() >= sceneHeight && ball != myExtraBall) {
+        if(ball.getCenterY() >= sceneHeight + Breakout.SCOREBOARD_HEIGHT && ball != myExtraBall) {
             loseLife();
         }
 
@@ -139,7 +140,7 @@ public class NormalLevel extends Level {
             ball.setxVelocity(ball.getxVelocity() * -1);
         }
 
-        if(ball.getCenterY() - ball.getRadius() <= 0) {
+        if(ball.getCenterY() - ball.getRadius() <= Breakout.SCOREBOARD_HEIGHT) {
             ball.setyVelocity(ball.getyVelocity() * -1);
         }
     }
@@ -155,13 +156,13 @@ public class NormalLevel extends Level {
     @Override
     public void setupBalls() {
         myBall.setCenterX(sceneWidth * 0.5);
-        myBall.setCenterY(sceneHeight * 0.625);
+        myBall.setCenterY(sceneHeight * 0.625 + Breakout.SCOREBOARD_HEIGHT);
         myBall.setxVelocity(150);
         myBall.setyVelocity(100);
 
         //myExtraBall should be invisible and stationary until it is activated
         myExtraBall.setCenterX(sceneWidth * 0.5);
-        myExtraBall.setCenterY(sceneHeight * 0.625);
+        myExtraBall.setCenterY(sceneHeight * 0.625 + Breakout.SCOREBOARD_HEIGHT);
         myExtraBall.setFill(Color.GOLD);
         myExtraBall.setOpacity(0);
         myExtraBall.setxVelocity(0);

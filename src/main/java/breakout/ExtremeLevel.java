@@ -14,27 +14,27 @@ public class ExtremeLevel extends Level {
 
     private Ball myBall;
 
-    public ExtremeLevel(int levelNumber, int lives, Group root, int sceneWidth, int sceneHeight) {
-        super(levelNumber, lives, root, sceneWidth, sceneHeight);
+    public ExtremeLevel(int levelNumber, int lives, Group root, int sceneWidth, int sceneHeight, Scoreboard scoreboard) {
+        super(levelNumber, lives, root, sceneWidth, sceneHeight, scoreboard);
     }
 
     @Override
     public void setupChildNodes(Group root, int sceneWidth, int sceneHeight) {
         leftPaddle = new Paddle(sceneWidth / 25.0, sceneHeight / 5.0, false);
         leftPaddle.setX(sceneWidth * 0.05 - leftPaddle.getWidth());
-        leftPaddle.setY(sceneHeight * 0.5 - leftPaddle.getHeight() / 2);
+        leftPaddle.setY(sceneHeight * 0.5 - leftPaddle.getHeight() / 2 + Breakout.SCOREBOARD_HEIGHT);
 
         rightPaddle = new Paddle(sceneWidth / 25.0, sceneHeight / 5.0, false);
         rightPaddle.setX(sceneWidth * 0.95);
-        rightPaddle.setY(sceneHeight * 0.5 - rightPaddle.getHeight() / 2);
+        rightPaddle.setY(sceneHeight * 0.5 - rightPaddle.getHeight() / 2 + Breakout.SCOREBOARD_HEIGHT);
 
         topPaddle = new Paddle(sceneWidth / 5.0, sceneHeight / 25.0, true);
         topPaddle.setX(sceneWidth * 0.5 - topPaddle.getWidth() / 2);
-        topPaddle.setY(sceneHeight * 0.05 - topPaddle.getHeight());
+        topPaddle.setY(sceneHeight * 0.05 - topPaddle.getHeight() + Breakout.SCOREBOARD_HEIGHT);
 
         bottomPaddle = new Paddle(sceneWidth / 5.0, sceneHeight / 25.0, true);
         bottomPaddle.setX(sceneWidth * 0.5 - bottomPaddle.getWidth() / 2);
-        bottomPaddle.setY(sceneHeight * 0.95);
+        bottomPaddle.setY(sceneHeight * 0.95 + Breakout.SCOREBOARD_HEIGHT);
 
         myBall = new Ball(150, 100);
         setupBalls();
@@ -107,6 +107,7 @@ public class ExtremeLevel extends Level {
         checkWallCollisions(myBall);
         checkPaddleWarping();
         myBall.move(elapsedTime);
+        scoreboard.refreshText(this);
     }
 
     private void checkPaddleCollisions() {
@@ -124,8 +125,8 @@ public class ExtremeLevel extends Level {
     public void checkWallCollisions(Ball ball) {
         if(ball.getCenterX() <= 0
                 || ball.getCenterX() >= sceneWidth
-                || ball.getCenterY() <= 0
-                || ball.getCenterY() >= sceneHeight) {
+                || ball.getCenterY() <= Breakout.SCOREBOARD_HEIGHT
+                || ball.getCenterY() >= sceneHeight + Breakout.SCOREBOARD_HEIGHT) {
             loseLife();
         }
     }
@@ -138,10 +139,10 @@ public class ExtremeLevel extends Level {
         }
         bottomPaddle.setX(topPaddle.getX());
 
-        if(leftPaddle.getY() >= sceneHeight) {
-            leftPaddle.setY(0 - leftPaddle.getHeight() / 2);
-        } else if (leftPaddle.getY() + leftPaddle.getHeight() <= 0) {
-            leftPaddle.setY(sceneHeight - leftPaddle.getHeight() / 2);
+        if(leftPaddle.getY() >= sceneHeight + Breakout.SCOREBOARD_HEIGHT) {
+            leftPaddle.setY(Breakout.SCOREBOARD_HEIGHT - leftPaddle.getHeight() / 2);
+        } else if (leftPaddle.getY() + leftPaddle.getHeight() <= Breakout.SCOREBOARD_HEIGHT) {
+            leftPaddle.setY(sceneHeight + Breakout.SCOREBOARD_HEIGHT - leftPaddle.getHeight() / 2);
         }
         rightPaddle.setY(leftPaddle.getY());
     }
@@ -149,7 +150,7 @@ public class ExtremeLevel extends Level {
     @Override
     public void setupBalls() {
         myBall.setCenterX(sceneWidth * 0.5);
-        myBall.setCenterY(sceneHeight * 0.2);
+        myBall.setCenterY(sceneHeight * 0.1 + Breakout.SCOREBOARD_HEIGHT);
         myBall.setxVelocity(150);
         myBall.setyVelocity(100);
     }
