@@ -6,12 +6,13 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 
 import java.util.Set;
 
 public class Ball extends Circle {
     // Constants
-    public static final int DEFAULT_RADIUS = 16;
+    public static final int DEFAULT_RADIUS = 10;
     private static final Paint DEFAULT_COLOR = Color.WHITE;
     // Instance variables
     private double xVelocity;
@@ -83,8 +84,7 @@ public class Ball extends Circle {
 
         if(isIntersectingLine(leftLine) || isIntersectingLine((rightLine))) {
             this.xVelocity *= -1;
-        }
-        if(isIntersectingLine(topLine) || isIntersectingLine(bottomLine)) {
+        } else if(isIntersectingLine(topLine) || isIntersectingLine(bottomLine)) {
             this.yVelocity *= -1;
         }
     }
@@ -95,7 +95,7 @@ public class Ball extends Circle {
      * @return boolean that indicates if ball and line are intersecting
      */
     private boolean isIntersectingLine(Line line) {
-        return this.getBoundsInParent().intersects(line.getBoundsInParent());
+        return this.getBoundsInLocal().intersects(line.getBoundsInLocal());
     }
 
     // GETTERS AND SETTERS
