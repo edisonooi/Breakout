@@ -1,6 +1,5 @@
 package breakout;
 
-import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Group;
@@ -20,7 +19,6 @@ public class NormalLevel extends Level {
 
     public NormalLevel(int levelNumber, int lives, Group root, int sceneWidth, int sceneHeight) {
         super(levelNumber, lives, root, sceneWidth, sceneHeight);
-
     }
 
     @Override
@@ -44,8 +42,16 @@ public class NormalLevel extends Level {
 
     @Override
     public void handleKeyInput(KeyCode code) {
-        if(code == KeyCode.R) {
-            reset();
+        if(code == KeyCode.L) {
+            this.numRemainingLives++;
+        } else if (code == KeyCode.T && !fastPaddleCheatHasBeenUsed) {
+            fastPaddleCheatHasBeenUsed = true;
+            myPaddle.setSpeed(myPaddle.getSpeed() * 2);
+            Timeline timeline =
+                    new Timeline(new KeyFrame(Duration.millis(Breakout.INVIS_PADDLE_DURATION),
+                            e -> myPaddle.setSpeed(myPaddle.getSpeed() / 2)));
+            timeline.setCycleCount(1);
+            timeline.play();
         }
         myPaddle.move(code);
     }

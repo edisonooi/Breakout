@@ -55,6 +55,34 @@ public class ExtremeLevel extends Level {
         rightPaddle.move(code);
         topPaddle.move(code);
         bottomPaddle.move(code);
+
+        if(code == KeyCode.L) {
+            this.numRemainingLives++;
+        } else if (code == KeyCode.T && !fastPaddleCheatHasBeenUsed) {
+            activateFastPaddleCheat();
+        }
+    }
+
+    private void activateFastPaddleCheat() {
+        fastPaddleCheatHasBeenUsed = true;
+
+        leftPaddle.setSpeed(leftPaddle.getSpeed() * 2);
+        rightPaddle.setSpeed(rightPaddle.getSpeed() * 2);
+        topPaddle.setSpeed(topPaddle.getSpeed() * 2);
+        bottomPaddle.setSpeed(bottomPaddle.getSpeed() * 2);
+
+        Timeline timeline =
+                new Timeline(new KeyFrame(Duration.millis(Breakout.INVIS_PADDLE_DURATION),
+                        e -> resetPaddleSpeeds()));
+        timeline.setCycleCount(1);
+        timeline.play();
+    }
+
+    private void resetPaddleSpeeds() {
+        leftPaddle.setSpeed(leftPaddle.getSpeed() / 2);
+        rightPaddle.setSpeed(rightPaddle.getSpeed() / 2);
+        topPaddle.setSpeed(topPaddle.getSpeed() / 2);
+        bottomPaddle.setSpeed(bottomPaddle.getSpeed() / 2);
     }
 
     @Override

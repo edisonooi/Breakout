@@ -16,6 +16,8 @@ public abstract class Level {
 
     public boolean failed;
 
+    public boolean fastPaddleCheatHasBeenUsed;
+
     public String blockConfigFile;
     public Set<Brick> bricks;
     public Group levelRoot;
@@ -32,6 +34,7 @@ public abstract class Level {
         this.sceneWidth = sceneWidth;
         this.sceneHeight = sceneHeight;
         this.failed = false;
+        this.fastPaddleCheatHasBeenUsed = false;
 
         setupChildNodes(root, sceneWidth, sceneHeight);
     }
@@ -139,6 +142,7 @@ public abstract class Level {
         clear();
         setupChildNodes(levelRoot, sceneWidth, sceneHeight);
         this.numRemainingLives = this.numLives;
+        this.fastPaddleCheatHasBeenUsed = false;
     }
 
     public void clear() {
