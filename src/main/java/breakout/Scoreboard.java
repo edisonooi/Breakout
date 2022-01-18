@@ -1,24 +1,38 @@
 package breakout;
 
 import javafx.scene.Node;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+
 import java.util.*;
 
-public class Scoreboard extends Node {
+public class Scoreboard extends Text {
     private int score;
-    private int livesRemaining;
-    private int levelNumber;
-    private Set<String> activePowerups;
+    private List<String> activePowerups;
 
-    public Scoreboard() {
+    private String scoreboardText;
+
+    public Scoreboard(int width, int height, String startingText) {
+        super(width, height, startingText);
         this.score = 0;
-        this.livesRemaining = 3;
-        this.levelNumber = 1;
-        this.activePowerups = new HashSet<>();
+        this.activePowerups = new ArrayList<>();
+        this.scoreboardText = "\nLevel:\nScore:\nLives:\nActive Powerups:\n";
+        setText(scoreboardText);
+        setWrappingWidth(width);
+        setFont(new Font(15));
+        setFill(Color.RED);
     }
 
+    public void refreshText(Level currentLevel) {
+        activePowerups.clear();
+        if(currentLevel.slowBallCheatIsActive) {
 
+        }
 
+        scoreboardText = String.format("\nLevel: %d\nScore: %d\nLives: %d\nActive Powerups: %s\n",
+                currentLevel.levelNumber, score, currentLevel.numRemainingLives, "Bruh");
+        setText(scoreboardText);
 
-
-
+    }
 }
