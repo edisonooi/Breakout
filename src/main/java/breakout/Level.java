@@ -43,6 +43,8 @@ public abstract class Level {
 
     public abstract void setupBalls();
 
+    public abstract void handlePowerup(Powerup powerup);
+
     public void setupBricks(Group root, int startX, int startY, int endX, int endY) {
         Scanner sc;
         File file;
@@ -116,7 +118,7 @@ public abstract class Level {
     public void checkBrickCollisions(Ball ball) {
         for(Brick brick : bricks) {
             if(Breakout.isIntersecting(brick, ball)) {
-                ball.bounce(brick, levelRoot, bricks);
+                handlePowerup(ball.bounce(brick, levelRoot, bricks));
                 return;
             }
         }
