@@ -92,7 +92,7 @@ public class NormalLevel extends Level {
     }
 
     public void checkWallCollisions(Ball ball) {
-        if(ball.getCenterY() >= sceneHeight) {
+        if(ball.getCenterY() >= sceneHeight && ball != myExtraBall) {
             loseLife();
         }
 
