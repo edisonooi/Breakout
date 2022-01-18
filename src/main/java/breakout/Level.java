@@ -11,6 +11,7 @@ public abstract class Level {
     public int levelNumber;
     public int numLives;
     public int numRemainingLives;
+    public int pointsAccumulated;
 
     public boolean failed;
 
@@ -32,6 +33,7 @@ public abstract class Level {
     public Level(int levelNumber, int lives, Group root, int sceneWidth, int sceneHeight, Scoreboard scoreboard) {
         this.levelNumber = levelNumber;
         this.numLives = this.numRemainingLives = lives;
+        this.pointsAccumulated = 0;
 
         this.blockConfigFile = "src/main/resources/level" + levelNumber + "config.txt";
         this.bricks = new HashSet<>();
@@ -136,7 +138,14 @@ public abstract class Level {
     public void checkBrickCollisions(Ball ball) {
         for(Brick brick : bricks) {
             if(Breakout.isIntersecting(brick, ball)) {
-                handlePowerup(ball.bounce(brick, levelRoot, bricks));
+                Powerup p = ball.bounce(brick, levelRoot, bricks);
+
+                if(p != null) {
+                    handlePowerup(p);
+                    scoreboard.updateScore(brick.getDurability());
+                    pointsAccumulated += brick.getDurability();
+                }
+
                 return;
             }
         }
@@ -182,7 +191,12 @@ public abstract class Level {
     public void reset() {
         clear();
         setupChildNodes(levelRoot, sceneWidth, sceneHeight);
+
+        scoreboard.updateScore(-1 * pointsAccumulated);
+        this.pointsAccumulated = 0;
         this.numRemainingLives = this.numLives;
+
+
         this.fastPaddleCheatHasBeenUsed = false;
         this.slowBallCheatIsActive = false;
         this.longPaddleIsActive = false;
