@@ -56,10 +56,11 @@ public class ExtremeLevel extends Level {
 
     @Override
     public void step(double elapsedTime) {
-        myBall.move(elapsedTime);
         checkPaddleCollisions();
         checkBrickCollisions(myBall);
         checkWallCollisions(myBall);
+        checkPaddleWarping();
+        myBall.move(elapsedTime);
     }
 
     private void checkPaddleCollisions() {
@@ -72,6 +73,22 @@ public class ExtremeLevel extends Level {
         } else if (Breakout.isIntersecting(bottomPaddle, myBall)) {
             myBall.bounce(bottomPaddle);
         }
+    }
+
+    private void checkPaddleWarping() {
+        if(topPaddle.getX() >= sceneWidth) {
+            topPaddle.setX(0 - topPaddle.getWidth() / 2);
+        } else if (topPaddle.getX() + topPaddle.getWidth() <= 0) {
+            topPaddle.setX(sceneWidth - topPaddle.getWidth() / 2);
+        }
+        bottomPaddle.setX(topPaddle.getX());
+
+        if(leftPaddle.getY() >= sceneHeight) {
+            leftPaddle.setY(0 - leftPaddle.getHeight() / 2);
+        } else if (leftPaddle.getY() + leftPaddle.getHeight() <= 0) {
+            leftPaddle.setY(sceneHeight - leftPaddle.getHeight() / 2);
+        }
+        rightPaddle.setY(leftPaddle.getY());
     }
 
     @Override

@@ -48,10 +48,14 @@ public class NormalLevel extends Level {
         checkPaddleCollisions();
         checkBrickCollisions(myBall);
         checkWallCollisions(myBall);
+
+        checkPaddleWarping();
+
         if(extraBallIsActivated) {
             checkBrickCollisions(myExtraBall);
             checkWallCollisions(myExtraBall);
         }
+
         moveBalls(elapsedTime);
     }
 
@@ -70,6 +74,14 @@ public class NormalLevel extends Level {
 
         if(Breakout.isIntersecting(myPaddle, myExtraBall)) {
             myExtraBall.bounce(myPaddle);
+        }
+    }
+
+    private void checkPaddleWarping() {
+        if(myPaddle.getX() >= sceneWidth) {
+            myPaddle.setX(0 - myPaddle.getWidth() / 2);
+        } else if(myPaddle.getX() + myPaddle.getWidth() <= 0) {
+            myPaddle.setX(sceneWidth - myPaddle.getWidth() / 2);
         }
     }
 
