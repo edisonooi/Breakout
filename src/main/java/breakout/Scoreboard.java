@@ -37,6 +37,9 @@ public class Scoreboard extends Text {
         scoreboardText = String.format("\nLevel: %d\nScore: %d\nLives: %d\nActive Powerups: %s\n",
                 currentLevel.levelNumber, score, currentLevel.numRemainingLives, powerupString);
         setText(scoreboardText);
+    }
 
+    public void updateScore(int pointsToAdd) {
+        score += pointsToAdd;
     }
 }
