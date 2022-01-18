@@ -185,6 +185,10 @@ public abstract class Level {
         this.numRemainingLives = this.numLives;
         this.fastPaddleCheatHasBeenUsed = false;
         this.slowBallCheatIsActive = false;
+        this.longPaddleIsActive = false;
+        this.extraBallIsActive = false;
+        this.invisiblePaddleIsActive = false;
+        this.fastPaddleCheatIsActive = false;
     }
 
     public void clear() {

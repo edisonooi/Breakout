@@ -13,8 +13,6 @@ public class NormalLevel extends Level {
     private Ball myBall;
     private Ball myExtraBall;
 
-    private boolean extraBallIsActivated;
-
     private Group levelRoot;
 
     public NormalLevel(int levelNumber, int lives, Group root, int sceneWidth, int sceneHeight, Scoreboard scoreboard) {
@@ -46,11 +44,15 @@ public class NormalLevel extends Level {
             this.numRemainingLives++;
         } else if (code == KeyCode.T && !fastPaddleCheatHasBeenUsed) {
             fastPaddleCheatHasBeenUsed = true;
+            fastPaddleCheatIsActive = true;
 
             myPaddle.setSpeed(myPaddle.getSpeed() * 2);
             Timeline timeline =
                     new Timeline(new KeyFrame(Duration.millis(Breakout.FAST_PADDLE_DURATION),
-                            e -> myPaddle.setSpeed(myPaddle.getSpeed() / 2)));
+                            e -> {
+                                myPaddle.setSpeed(myPaddle.getSpeed() / 2);
+                                fastPaddleCheatIsActive = false;
+                            }));
             timeline.setCycleCount(1);
             timeline.play();
         } else if (code == KeyCode.S && !slowBallCheatIsActive) {
@@ -84,7 +86,7 @@ public class NormalLevel extends Level {
 
         checkPaddleWarping();
 
-        if(extraBallIsActivated) {
+        if(extraBallIsActive) {
             checkBrickCollisions(myExtraBall);
             checkWallCollisions(myExtraBall);
         }
@@ -96,7 +98,7 @@ public class NormalLevel extends Level {
     private void moveBalls(double elapsedTime) {
         myBall.move(elapsedTime);
 
-        if(extraBallIsActivated) {
+        if(extraBallIsActive) {
             myExtraBall.move(elapsedTime);
         }
     }
@@ -110,12 +112,18 @@ public class NormalLevel extends Level {
         if(powerup == Powerup.EXTRA_BALL) {
             activateExtraBall();
         } else if (powerup == Powerup.INVISIBLE_PADDLE) {
-            myPaddle.setOpacity(0.5);
+            myPaddle.setOpacity(0);
+            invisiblePaddleIsActive = true;
             Timeline timeline =
-                    new Timeline(new KeyFrame(Duration.millis(Breakout.INVIS_PADDLE_DURATION), e -> myPaddle.setOpacity(1)));
+                    new Timeline(new KeyFrame(Duration.millis(Breakout.INVIS_PADDLE_DURATION), e ->
+                    {
+                        myPaddle.setOpacity(1);
+                        invisiblePaddleIsActive = false;
+                    }));
             timeline.setCycleCount(1);
             timeline.play();
         } else if (powerup == Powerup.LONG_PADDLE) {
+            longPaddleIsActive = true;
             myPaddle.setWidth(myPaddle.getWidth() * 1.5);
         }
     }
@@ -131,8 +139,13 @@ public class NormalLevel extends Level {
     }
 
     public void checkWallCollisions(Ball ball) {
-        if(ball.getCenterY() >= sceneHeight + Breakout.SCOREBOARD_HEIGHT && ball != myExtraBall) {
-            loseLife();
+        if(ball.getCenterY() >= sceneHeight + Breakout.SCOREBOARD_HEIGHT) {
+            if(ball == myExtraBall) {
+                extraBallIsActive = false;
+                myExtraBall.setOpacity(0);
+            } else {
+                loseLife();
+            }
         }
 
         if(ball.getCenterX() - ball.getRadius() <= 0 ||
@@ -167,13 +180,13 @@ public class NormalLevel extends Level {
         myExtraBall.setOpacity(0);
         myExtraBall.setxVelocity(0);
         myExtraBall.setyVelocity(0);
-        extraBallIsActivated = false;
+        extraBallIsActive = false;
     }
 
     private void activateExtraBall() {
         myExtraBall.setOpacity(1);
         myExtraBall.setxVelocity(-160);
         myExtraBall.setyVelocity(100);
-        extraBallIsActivated = true;
+        extraBallIsActive = true;
     }
 }

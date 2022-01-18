@@ -80,6 +80,7 @@ public class ExtremeLevel extends Level {
 
     private void activateFastPaddleCheat() {
         fastPaddleCheatHasBeenUsed = true;
+        fastPaddleCheatIsActive = true;
 
         leftPaddle.setSpeed(leftPaddle.getSpeed() * 2);
         rightPaddle.setSpeed(rightPaddle.getSpeed() * 2);
@@ -98,6 +99,7 @@ public class ExtremeLevel extends Level {
         rightPaddle.setSpeed(rightPaddle.getSpeed() / 2);
         topPaddle.setSpeed(topPaddle.getSpeed() / 2);
         bottomPaddle.setSpeed(bottomPaddle.getSpeed() / 2);
+        fastPaddleCheatIsActive = false;
     }
 
     @Override
@@ -166,6 +168,7 @@ public class ExtremeLevel extends Level {
             bottomPaddle.setOpacity(0);
             leftPaddle.setOpacity(0);
             rightPaddle.setOpacity(0);
+            invisiblePaddleIsActive = true;
 
             Timeline timeline =
                     new Timeline(new KeyFrame(Duration.millis(Breakout.INVIS_PADDLE_DURATION), e -> makePaddlesVisible()));
@@ -176,6 +179,7 @@ public class ExtremeLevel extends Level {
             bottomPaddle.setWidth(bottomPaddle.getWidth() * 1.5);
             leftPaddle.setHeight(leftPaddle.getHeight() * 1.5);
             rightPaddle.setHeight(rightPaddle.getHeight() * 1.5);
+            longPaddleIsActive = true;
         }
     }
 
@@ -184,5 +188,6 @@ public class ExtremeLevel extends Level {
         bottomPaddle.setOpacity(1);
         leftPaddle.setOpacity(1);
         rightPaddle.setOpacity(1);
+        invisiblePaddleIsActive = false;
     }
 }
