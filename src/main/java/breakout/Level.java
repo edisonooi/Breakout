@@ -122,9 +122,21 @@ public abstract class Level {
         }
     }
 
+    public void loseLife() {
+        this.numRemainingLives--;
+
+        if(this.numRemainingLives == 0) {
+            this.failed = true;
+            return;
+        }
+
+        setupBalls();
+    }
+
     public void reset() {
         clear();
         setupChildNodes(levelRoot, sceneWidth, sceneHeight);
+        this.numRemainingLives = this.numLives;
     }
 
     public void clear() {

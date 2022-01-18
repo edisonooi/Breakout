@@ -81,13 +81,16 @@ public class NormalLevel extends Level {
     }
 
     public void checkWallCollisions(Ball ball) {
+        if(ball.getCenterY() >= sceneHeight) {
+            loseLife();
+        }
+
         if(ball.getCenterX() - ball.getRadius() <= 0 ||
                 ball.getCenterX() + ball.getRadius() >= sceneWidth) {
             ball.setxVelocity(ball.getxVelocity() * -1);
         }
 
-        if(ball.getCenterY() - ball.getRadius() <= 0 ||
-                ball.getCenterY() + ball.getRadius() >= sceneHeight) {
+        if(ball.getCenterY() - ball.getRadius() <= 0) {
             ball.setyVelocity(ball.getyVelocity() * -1);
         }
     }
@@ -116,17 +119,4 @@ public class NormalLevel extends Level {
         myExtraBall.setyVelocity(0);
         extraBallIsActivated = false;
     }
-
-    private void loseLife() {
-        this.numRemainingLives--;
-
-        if(this.numRemainingLives == 0) {
-            this.failed = true;
-            return;
-        }
-
-        setupBalls();
-    }
-
-
 }
