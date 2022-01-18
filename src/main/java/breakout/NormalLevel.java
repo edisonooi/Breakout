@@ -46,10 +46,30 @@ public class NormalLevel extends Level {
             this.numRemainingLives++;
         } else if (code == KeyCode.T && !fastPaddleCheatHasBeenUsed) {
             fastPaddleCheatHasBeenUsed = true;
+
             myPaddle.setSpeed(myPaddle.getSpeed() * 2);
             Timeline timeline =
-                    new Timeline(new KeyFrame(Duration.millis(Breakout.INVIS_PADDLE_DURATION),
+                    new Timeline(new KeyFrame(Duration.millis(Breakout.FAST_PADDLE_DURATION),
                             e -> myPaddle.setSpeed(myPaddle.getSpeed() / 2)));
+            timeline.setCycleCount(1);
+            timeline.play();
+        } else if (code == KeyCode.S && !slowBallCheatIsActive) {
+            slowBallCheatIsActive = true;
+
+            myBall.setxVelocity(myBall.getxVelocity() / 2);
+            myBall.setyVelocity(myBall.getyVelocity() / 2);
+            myExtraBall.setxVelocity(myExtraBall.getxVelocity() / 2);
+            myExtraBall.setyVelocity(myExtraBall.getyVelocity() / 2);
+
+            Timeline timeline =
+                    new Timeline(new KeyFrame(Duration.millis(Breakout.SLOW_BALL_DURATION),
+                            e -> {
+                                myBall.setxVelocity(myBall.getxVelocity() * 2);
+                                myBall.setyVelocity(myBall.getyVelocity() * 2);
+                                myExtraBall.setxVelocity(myExtraBall.getxVelocity() * 2);
+                                myExtraBall.setyVelocity(myExtraBall.getyVelocity() * 2);
+                                slowBallCheatIsActive = false;
+                            }));
             timeline.setCycleCount(1);
             timeline.play();
         }

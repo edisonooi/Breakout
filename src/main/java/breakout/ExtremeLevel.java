@@ -60,6 +60,21 @@ public class ExtremeLevel extends Level {
             this.numRemainingLives++;
         } else if (code == KeyCode.T && !fastPaddleCheatHasBeenUsed) {
             activateFastPaddleCheat();
+        } else if (code == KeyCode.S && !slowBallCheatIsActive) {
+            slowBallCheatIsActive = true;
+
+            myBall.setxVelocity(myBall.getxVelocity() / 2);
+            myBall.setyVelocity(myBall.getyVelocity() / 2);
+
+            Timeline timeline =
+                    new Timeline(new KeyFrame(Duration.millis(Breakout.SLOW_BALL_DURATION),
+                            e -> {
+                                myBall.setxVelocity(myBall.getxVelocity() * 2);
+                                myBall.setyVelocity(myBall.getyVelocity() * 2);
+                                slowBallCheatIsActive = false;
+                            }));
+            timeline.setCycleCount(1);
+            timeline.play();
         }
     }
 
