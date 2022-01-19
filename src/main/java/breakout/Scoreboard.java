@@ -29,7 +29,7 @@ public class Scoreboard extends Text {
      * @param height height, in pixels, of scoreboard region on main scene
      */
     public Scoreboard(int width, int height) {
-        super(width, height, "");
+        super(width, height, "Placeholder");
         this.score = 0;
         this.scoreboardText = "\nLevel:\nScore:\nLives:\nActive Powerups:\n";
         setText(scoreboardText);
