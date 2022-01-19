@@ -43,11 +43,8 @@ public class Brick extends Rectangle {
         setPowerupStyle(powerup);
     }
 
-    /**
-     * Initialize original and remaining durability of brick based on its type.
-     *
-     * @param type character representing type of brick
-     */
+
+    // Initialize original and remaining durability of brick based on its type.
     private void initializeDurablity(String type) {
         switch (type) {
             case "1" -> durability = remainingDurability = 1;
@@ -62,11 +59,8 @@ public class Brick extends Rectangle {
         }
     }
 
-    /**
-     * Assign a powerup to brick based on its type given by brick config file.
-     *
-     * @param type character representing type of brick
-     */
+
+    // Assign a powerup to brick based on its type given by brick config file.
     private void initializePowerup(String type) {
         switch (type) {
             case "L" -> powerup = Powerup.LONG_PADDLE;
