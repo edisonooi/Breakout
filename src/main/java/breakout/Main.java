@@ -3,35 +3,31 @@ package breakout;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
-import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 
-
 /**
- * Feel free to completely change this code or delete it entirely.
+ * Landing point for program initialization.
  *
- * @author YOUR NAME HERE
+ * @author Edison Ooi
  */
 public class Main extends Application {
-    // useful names for constant values used
-    public static final String TITLE = "Example JavaFX Animation";
+    // Constants for rendering game
+    public static final String TITLE = "Breakout Game";
     public static final int GAME_HEIGHT = 600;
     public static final int GAME_WIDTH = 600;
     public static final Paint BACKGROUND_COLOR = Color.BLACK;
     public static final int FRAMES_PER_SECOND = 60;
     public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
 
-    // instance variables
+    // Instance of Breakout game
     private Breakout myBreakout;
 
-
     /**
-     * Initialize what will be displayed.
+     * Create an instance of Breakout game and play it.
      */
     @Override
     public void start (Stage stage) {
