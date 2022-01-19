@@ -7,7 +7,7 @@ import javafx.scene.input.KeyCode;
 
 public class Paddle extends Rectangle {
     // Default paddle speed
-    private static final int PADDLE_SPEED = 20;
+    private static final int PADDLE_SPEED = 35;
 
     // Instance variables
     private boolean isHorizontal;
