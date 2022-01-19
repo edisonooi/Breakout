@@ -32,6 +32,10 @@ public class Breakout {
     // Variables to track current level being played
     private Level currentLevel;
     private int currentLevelNum;
+    
+    // Store initial values of scene's width and height to use consistently throughout lifespan of game
+    private int sceneWidth;
+    private int sceneHeight;
 
     /**
      * Creates main scene and Group in which all UI components will live. Also initializes first level and scoreboard,
@@ -45,6 +49,11 @@ public class Breakout {
      * @return Scene object encapsulating all UI components to be rendered in Main
      */
     public Scene setupGame(int width, int height, Paint background) {
+        // Initialize width and height of game
+        // We don't take these values from Scene object because it changes upon window resizing, which messes up calculations
+        sceneWidth = width;
+        sceneHeight = height;
+
         // Top level collection that encapsulates all subviews in scene
         root = new Group();
 
@@ -56,11 +65,11 @@ public class Breakout {
 
         // Initialize first level
         currentLevelNum = 1;
-        Level level1 = new NormalLevel(1, 3, root, width, height, scoreboard);
+        Level level1 = new NormalLevel(1, 3, root, sceneWidth, sceneHeight, scoreboard);
         currentLevel = level1;
 
         // Create main scene
-        Scene scene = new Scene(root, width, height + SCOREBOARD_HEIGHT, background);
+        Scene scene = new Scene(root, sceneWidth, sceneHeight + SCOREBOARD_HEIGHT, background);
 
         // Respond to input
         scene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
@@ -121,14 +130,11 @@ public class Breakout {
 
     // Skips to level of given number, or final level if given level is higher than the highest level.
     private void goToLevel(int level) {
-        System.out.println(mainScene.getWidth());
-        System.out.println(mainScene.getHeight());
+        System.out.println(sceneWidth);
+        System.out.println(sceneHeight);
 
         currentLevel.clear();
         currentLevelNum = level;
-
-        int sceneWidth = (int) mainScene.getWidth();
-        int sceneHeight = (int) mainScene.getHeight();
 
         switch(currentLevelNum) {
             case 1 -> currentLevel = new NormalLevel(1, 3, root, sceneWidth, sceneHeight, scoreboard);
@@ -143,14 +149,14 @@ public class Breakout {
 
         root.getChildren().clear();
 
-        Text endScreenText = new Text(mainScene.getWidth(), mainScene.getHeight(), "");
+        Text endScreenText = new Text(sceneWidth, sceneHeight, "");
         String endScreenMessage = String.format("You %s\nScore: %d", didWin ? "Win" : "Lose", scoreboard.getScore());
         endScreenText.setText(endScreenMessage);
         endScreenText.setFont(new Font(50));
         endScreenText.setTextAlignment(TextAlignment.CENTER);
         endScreenText.setFill(didWin ? Color.LIMEGREEN : Color.RED);
-        endScreenText.setX(mainScene.getWidth() / 2 - endScreenText.getBoundsInLocal().getWidth() / 2);
-        endScreenText.setY((mainScene.getHeight() + SCOREBOARD_HEIGHT) / 2 - endScreenText.getBoundsInLocal().getHeight() / 2);
+        endScreenText.setX(sceneWidth / 2.0 - endScreenText.getBoundsInLocal().getWidth() / 2);
+        endScreenText.setY((sceneHeight + SCOREBOARD_HEIGHT) / 2.0 - endScreenText.getBoundsInLocal().getHeight() / 2);
 
         root.getChildren().add(endScreenText);
     }
