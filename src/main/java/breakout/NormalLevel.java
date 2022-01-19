@@ -79,52 +79,47 @@ public class NormalLevel extends Level {
         extraBallIsActive = false;
     }
 
-    /**
-     * Responds to the following cheat keys or moves paddle according to key:
-     * L - Gives player an extra life for this level.
-     * T - Doubles paddle speed for certain amount of time.
-     * S - Halves ball speed for certain amount of time.
-     *
-     * @param code KeyCode of key that was pressed
-     */
     @Override
-    public void handleKeyInput(KeyCode code) {
-        if(code == KeyCode.L) {
-            this.numRemainingLives++;
-        } else if (code == KeyCode.T && !fastPaddleCheatHasBeenUsed) {
-            fastPaddleCheatHasBeenUsed = true;
-            fastPaddleCheatIsActive = true;
-
-            myPaddle.setSpeed(myPaddle.getSpeed() * 2);
-            Timeline timeline =
-                    new Timeline(new KeyFrame(Duration.millis(Breakout.FAST_PADDLE_DURATION),
-                            e -> {
-                                myPaddle.setSpeed(myPaddle.getSpeed() / 2);
-                                fastPaddleCheatIsActive = false;
-                            }));
-            timeline.setCycleCount(1);
-            timeline.play();
-        } else if (code == KeyCode.S && !slowBallCheatIsActive) {
-            slowBallCheatIsActive = true;
-
-            myBall.setxVelocity(myBall.getxVelocity() / 2);
-            myBall.setyVelocity(myBall.getyVelocity() / 2);
-            myExtraBall.setxVelocity(myExtraBall.getxVelocity() / 2);
-            myExtraBall.setyVelocity(myExtraBall.getyVelocity() / 2);
-
-            Timeline timeline =
-                    new Timeline(new KeyFrame(Duration.millis(Breakout.SLOW_BALL_DURATION),
-                            e -> {
-                                myBall.setxVelocity(myBall.getxVelocity() * 2);
-                                myBall.setyVelocity(myBall.getyVelocity() * 2);
-                                myExtraBall.setxVelocity(myExtraBall.getxVelocity() * 2);
-                                myExtraBall.setyVelocity(myExtraBall.getyVelocity() * 2);
-                                slowBallCheatIsActive = false;
-                            }));
-            timeline.setCycleCount(1);
-            timeline.play();
-        }
+    public void movePaddles(KeyCode code) {
         myPaddle.move(code);
+    }
+
+    @Override
+    public void activateFastPaddleCheat() {
+        fastPaddleCheatHasBeenUsed = true;
+        fastPaddleCheatIsActive = true;
+
+        myPaddle.setSpeed(myPaddle.getSpeed() * 2);
+        Timeline timeline =
+                new Timeline(new KeyFrame(Duration.millis(Breakout.FAST_PADDLE_DURATION),
+                        e -> {
+                            myPaddle.setSpeed(myPaddle.getSpeed() / 2);
+                            fastPaddleCheatIsActive = false;
+                        }));
+        timeline.setCycleCount(1);
+        timeline.play();
+    }
+
+    @Override
+    public void activateSlowBallCheat() {
+        slowBallCheatIsActive = true;
+
+        myBall.setxVelocity(myBall.getxVelocity() / 2);
+        myBall.setyVelocity(myBall.getyVelocity() / 2);
+        myExtraBall.setxVelocity(myExtraBall.getxVelocity() / 2);
+        myExtraBall.setyVelocity(myExtraBall.getyVelocity() / 2);
+
+        Timeline timeline =
+                new Timeline(new KeyFrame(Duration.millis(Breakout.SLOW_BALL_DURATION),
+                        e -> {
+                            myBall.setxVelocity(myBall.getxVelocity() * 2);
+                            myBall.setyVelocity(myBall.getyVelocity() * 2);
+                            myExtraBall.setxVelocity(myExtraBall.getxVelocity() * 2);
+                            myExtraBall.setyVelocity(myExtraBall.getyVelocity() * 2);
+                            slowBallCheatIsActive = false;
+                        }));
+        timeline.setCycleCount(1);
+        timeline.play();
     }
 
     /**
@@ -161,7 +156,8 @@ public class NormalLevel extends Level {
 
     // Helper method for step() to check if any ball has hit the paddle
     // and bounce accordingly.
-    private void checkPaddleCollisions() {
+    @Override
+    public void checkPaddleCollisions() {
         if(Breakout.isIntersecting(myPaddle, myBall)) {
             myBall.bounce(myPaddle);
         }
@@ -173,7 +169,8 @@ public class NormalLevel extends Level {
 
     // Helper method for step() to check if ball is hitting or going past a wall
     // and bounce/lose life accordingly.
-    private void checkWallCollisions(Ball ball) {
+    @Override
+    public void checkWallCollisions(Ball ball) {
         if(ball.getCenterY() >= sceneHeight + Breakout.SCOREBOARD_HEIGHT) {
             if(ball == myExtraBall) {
                 extraBallIsActive = false;
@@ -195,7 +192,8 @@ public class NormalLevel extends Level {
 
     // Helper method for step() to check if paddle has gone off screen and warp
     // it to the opposite side.
-    private void checkPaddleWarping() {
+    @Override
+    public void checkPaddleWarping() {
         if(myPaddle.getX() >= sceneWidth) {
             myPaddle.setX(0 - myPaddle.getWidth() / 2);
         } else if(myPaddle.getX() + myPaddle.getWidth() <= 0) {

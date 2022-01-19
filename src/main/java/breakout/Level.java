@@ -93,11 +93,30 @@ public abstract class Level {
     public abstract void setupBalls();
 
     /**
-     * Responds to certain keystrokes such as movement controls or cheat keys.
+     * Responds to the following cheat keys or moves all paddles according to key:
+     * L - Gives player an extra life for this level.
+     * T - Doubles paddle speed for certain amount of time.
+     * S - Halves ball speed for certain amount of time.
      *
      * @param code KeyCode of key that was pressed
      */
-    public abstract void handleKeyInput(KeyCode code);
+    public void handleKeyInput(KeyCode code) {
+        movePaddles(code);
+
+        if(code == KeyCode.L) {
+            this.numRemainingLives++;
+        } else if (code == KeyCode.T && !fastPaddleCheatHasBeenUsed) {
+            activateFastPaddleCheat();
+        } else if (code == KeyCode.S && !slowBallCheatIsActive) {
+            activateSlowBallCheat();
+        }
+    }
+
+    public abstract void movePaddles(KeyCode code);
+
+    public abstract void activateFastPaddleCheat();
+
+    public abstract void activateSlowBallCheat();
 
     /**
      * Performs specific actions when powerup is activated upon brick breaking.
@@ -112,6 +131,12 @@ public abstract class Level {
      * @param elapsedTime amount of time since last update
      */
     public abstract void step(double elapsedTime);
+
+    public abstract void checkPaddleCollisions();
+
+    public abstract void checkWallCollisions(Ball ball);
+
+    public abstract void checkPaddleWarping();
 
     /**
      * Instantiates and renders all bricks for level by extracting brick configuration from given text file and placing
