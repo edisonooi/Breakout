@@ -1,11 +1,15 @@
 package breakout;
 
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
 import java.util.Map;
 
+/**
+ * This class represents a brick that can be hit and destroyed for points or powerups in a Breakout game.
+ *
+ * @author Edison Ooi
+ */
 public class Brick extends Rectangle {
 
     // Maps a brick's durability to its color
@@ -20,11 +24,11 @@ public class Brick extends Rectangle {
     // Instance variables
     private int durability;
     private int remainingDurability;
-
     private Powerup powerup;
 
     /**
-     * Class constructor
+     * Class constructor. Initializes all instance variables and sets up brick styling based on its properties.
+     *
      * @param width width of brick
      * @param height height of brick
      * @param type character representing type of brick
@@ -40,7 +44,8 @@ public class Brick extends Rectangle {
     }
 
     /**
-     * Initialize original and remaining durability of brick based on its type
+     * Initialize original and remaining durability of brick based on its type.
+     *
      * @param type character representing type of brick
      */
     private void initializeDurablity(String type) {
@@ -58,7 +63,8 @@ public class Brick extends Rectangle {
     }
 
     /**
-     * Assign a powerup to brick based on its type given by brick config file
+     * Assign a powerup to brick based on its type given by brick config file.
+     *
      * @param type character representing type of brick
      */
     private void initializePowerup(String type) {
@@ -70,10 +76,7 @@ public class Brick extends Rectangle {
         }
     }
 
-    /**
-     * Draw a stroke around brick if it is a powerup brick
-     * @param powerup the powerup that this brick activates when broken
-     */
+    // Draw a stroke around brick if it is a powerup brick.
     private void setPowerupStyle(Powerup powerup) {
         if(powerup == Powerup.NONE) {
             return;
@@ -89,7 +92,9 @@ public class Brick extends Rectangle {
     }
 
     /**
-     * Modify brick properties if it has been hit by ball
+     * Modify brick properties if it has been hit by ball.
+     * Should only be called by Ball object.
+     *
      * @return boolean indicating if brick has been broken
      */
     public boolean hit() {
@@ -105,13 +110,20 @@ public class Brick extends Rectangle {
     }
 
     /**
-     * Get powerup assigned to this brick
+     * Get powerup assigned to this brick.
+     *
      * @return brick's powerup
      */
     public Powerup getPowerup() {
         return this.powerup;
     }
 
+    /**
+     * Get number of hits needed to break this brick from its starting state, NOT its current state.
+     * This is used to determine how many points are scored when this brick is broken.
+     *
+     * @return number of hits needed to break brick from starting state
+     */
     public int getDurability() {
         return this.durability;
     }
