@@ -6,7 +6,6 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
 
 import java.util.Set;
 
@@ -14,12 +13,14 @@ public class Ball extends Circle {
     // Constants
     public static final int DEFAULT_RADIUS = 10;
     private static final Paint DEFAULT_COLOR = Color.WHITE;
-    // Instance variables
+
+    // Velocity components for this ball
     private double xVelocity;
     private double yVelocity;
 
     /**
-     * Class constructor
+     * Class constructor.
+     *
      * @param xVelocity velocity of ball in x direction
      * @param yVelocity velocity of ball in x direction
      */
@@ -30,7 +31,8 @@ public class Ball extends Circle {
     }
 
     /**
-     * Updates location of ball based on its velocity and elapsed time
+     * Updates location of ball based on its velocity and elapsed time.
+     *
      * @param elapsedTime amount of time that has passed since last game step
      */
     public void move(double elapsedTime) {
@@ -39,7 +41,8 @@ public class Ball extends Circle {
     }
 
     /**
-     * Updates properties of ball and brick upon collision
+     * Updates properties of ball and brick upon collision.
+     *
      * @param brick brick that is colliding with ball
      * @param root Group of Nodes being rendered by scene
      * @param bricks Set of remaining bricks in current level
@@ -60,18 +63,19 @@ public class Ball extends Circle {
     }
 
     /**
-     * Updates properties of ball upon colliding with paddle
+     * Updates properties of ball upon colliding with paddle.
+     *
      * @param paddle Paddle that ball collides with
      */
     public void bounce(Paddle paddle) {
         updateVelocities(paddle);
     }
 
-    /**
-     * Updates velocities of ball depending on which side of rectangle it bounces off of
-     * @param rect Rectangle that ball collides with
-     */
+
+    // Updates velocities of ball depending on which side of rectangle it bounces off of.
+    // We assume full conservation of momentum for the ball in all directions.
     private void updateVelocities(Rectangle rect) {
+        // Create lines representing all four sides of rectangle, and compare bounds of ball with each line
         double leftX = rect.getX();
         double rightX = rect.getX() + rect.getWidth();
         double topY = rect.getY();
@@ -84,34 +88,45 @@ public class Ball extends Circle {
 
         if(isIntersectingLine(leftLine) || isIntersectingLine((rightLine))) {
             this.xVelocity *= -1;
-        } else if(isIntersectingLine(topLine) || isIntersectingLine(bottomLine)) {
+        } else if (isIntersectingLine(topLine) || isIntersectingLine(bottomLine)) {
             this.yVelocity *= -1;
         }
     }
 
-    /**
-     * Helper method for updateVelocities(), checks if ball is intersecting a given line
-     * @param line line to check ball intersection with
-     * @return boolean that indicates if ball and line are intersecting
-     */
+
+    // Helper method for updateVelocities(), checks if ball is intersecting a given line.
     private boolean isIntersectingLine(Line line) {
         return this.getBoundsInLocal().intersects(line.getBoundsInLocal());
     }
 
-    // GETTERS AND SETTERS
-
+    /**
+     * @return velocity of ball in x-direction
+     */
     public double getxVelocity() {
         return xVelocity;
     }
 
+    /**
+     * @return velocity of ball in y-direction
+     */
     public double getyVelocity() {
         return yVelocity;
     }
 
+    /**
+     * Set the x-velocity of this ball.
+     *
+     * @param xVelocity
+     */
     public void setxVelocity(double xVelocity) {
         this.xVelocity = xVelocity;
     }
 
+    /**
+     * Set the y-velocity of this ball.
+     *
+     * @param yVelocity
+     */
     public void setyVelocity(double yVelocity) {
         this.yVelocity = yVelocity;
     }
