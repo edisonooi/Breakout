@@ -20,7 +20,8 @@ import javafx.util.Duration;
 public class Main extends Application {
     // useful names for constant values used
     public static final String TITLE = "Example JavaFX Animation";
-    public static final int SIZE = 400;
+    public static final int GAME_HEIGHT = 600;
+    public static final int GAME_WIDTH = 600;
     public static final Paint BACKGROUND_COLOR = Color.BLACK;
     public static final int FRAMES_PER_SECOND = 60;
     public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
@@ -38,7 +39,7 @@ public class Main extends Application {
         myBreakout = new Breakout();
 
         // Attach scene to the stage and display it
-        Scene scene = myBreakout.setupGame(SIZE, SIZE, BACKGROUND_COLOR);
+        Scene scene = myBreakout.setupGame(GAME_WIDTH, GAME_HEIGHT, BACKGROUND_COLOR);
         stage.setScene(scene);
         stage.setTitle(TITLE);
         stage.show();
