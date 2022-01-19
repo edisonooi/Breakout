@@ -21,7 +21,7 @@ public class Scoreboard extends Text {
         setText(scoreboardText);
         setWrappingWidth(width);
         setFont(new Font(15));
-        setFill(Color.RED);
+        setFill(Color.WHITE);
     }
 
     public void refreshText(Level currentLevel) {
