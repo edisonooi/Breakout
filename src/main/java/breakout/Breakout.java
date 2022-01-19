@@ -9,6 +9,9 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 
 import java.io.FileNotFoundException;
 import java.util.HashSet;
@@ -26,8 +29,11 @@ public class Breakout {
     public static final int INVIS_PADDLE_DURATION = 2000;
     public static final int FAST_PADDLE_DURATION = 5000;
     public static final int SLOW_BALL_DURATION = 5000;
+    public static final int SCOREBOARD_HEIGHT = 100;
 
+    private Scene mainScene;
     private Group root;
+    private Scoreboard scoreboard;
 
     private Level currentLevel;
     private int currentLevelNum;
@@ -36,22 +42,29 @@ public class Breakout {
     private int sceneHeight;
 
     public Scene setupGame(int width, int height, Paint background) {
+        sceneWidth = width;
+        sceneHeight = height;
+
         //Top level collection that encapsulates all subviews in scene
         root = new Group();
 
+        //Setup scoreboard
+        scoreboard = new Scoreboard(sceneWidth, SCOREBOARD_HEIGHT, "Hello");
+        scoreboard.setX(0);
+        scoreboard.setY(0);
+        root.getChildren().add(scoreboard);
+
         //Initialize first level
         currentLevelNum = 1;
-        Level level1 = new NormalLevel(1, 3, root, width, height);
+        Level level1 = new NormalLevel(1, 3, root, width, height, scoreboard);
         currentLevel = level1;
 
+
         //Create main scene
-        Scene scene = new Scene(root, width, height, background);
+        Scene scene = new Scene(root, sceneWidth, sceneHeight + SCOREBOARD_HEIGHT, background);
         //Respond to input
         scene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
-
-        //Set width and height for this Breakout instance
-        sceneWidth = width;
-        sceneHeight = height;
+        mainScene = scene;
 
         return scene;
     }
@@ -102,14 +115,27 @@ public class Breakout {
         currentLevelNum = level;
 
         switch(currentLevelNum) {
-            case 1 -> currentLevel = new NormalLevel(1, 3, root, sceneWidth, sceneHeight);
-            case 2 -> currentLevel = new NormalLevel(2, 3, root, sceneWidth, sceneHeight);
-            default -> currentLevel = new ExtremeLevel(3, 5, root, sceneWidth, sceneHeight);
+            case 1 -> currentLevel = new NormalLevel(1, 3, root, sceneWidth, sceneHeight, scoreboard);
+            case 2 -> currentLevel = new NormalLevel(2, 3, root, sceneWidth, sceneHeight, scoreboard);
+            default -> currentLevel = new ExtremeLevel(3, 5, root, sceneWidth, sceneHeight, scoreboard);
         }
     }
 
     private void showEndScreen(boolean didWin) {
+        mainScene.setOnKeyPressed(null);
+
         root.getChildren().clear();
+
+        Text endScreenText = new Text(sceneWidth, sceneHeight, "");
+        String endScreenMessage = String.format("You %s\nScore: %d", didWin ? "Win" : "Lose", scoreboard.getScore());
+        endScreenText.setText(endScreenMessage);
+        endScreenText.setFont(new Font(50));
+        endScreenText.setTextAlignment(TextAlignment.CENTER);
+        endScreenText.setFill(didWin ? Color.LIMEGREEN : Color.RED);
+        endScreenText.setX(sceneWidth / 2 - endScreenText.getBoundsInLocal().getWidth() / 2);
+        endScreenText.setY((sceneHeight + SCOREBOARD_HEIGHT) / 2 - endScreenText.getBoundsInLocal().getHeight() / 2);
+
+        root.getChildren().add(endScreenText);
     }
 
     public static boolean isIntersecting(Shape a, Shape b) {
