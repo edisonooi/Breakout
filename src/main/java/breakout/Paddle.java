@@ -1,10 +1,14 @@
 package breakout;
 
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.input.KeyCode;
 
+/**
+ * This class represents a paddle that can be used to hit balls in a Breakout game
+ *
+ * @author Edison Ooi
+ */
 public class Paddle extends Rectangle {
     // Default paddle speed
     private static final int PADDLE_SPEED = 35;
@@ -15,6 +19,7 @@ public class Paddle extends Rectangle {
 
     /**
      * Class constructor
+     *
      * @param width Width of paddle
      * @param height Height of paddle
      * @param isHorizontal Boolean indicating if paddle moves along x-axis
@@ -27,6 +32,7 @@ public class Paddle extends Rectangle {
 
     /**
      * Updates paddle position based on key pressed
+     *
      * @param code KeyCode of key that is pressed
      */
     public void move(KeyCode code) {
@@ -45,10 +51,16 @@ public class Paddle extends Rectangle {
         }
     }
 
+    /**
+     * @return Speed of this paddle, in pixels per keystroke
+     */
     public int getSpeed() {
         return this.speed;
     }
 
+    /**
+     * @param speed desired speed of paddle in pixels per keystroke
+     */
     public void setSpeed(int speed) {
         this.speed = speed;
     }
