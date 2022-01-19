@@ -7,18 +7,39 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
+/**
+ * This class represents a Breakout Level that consists of one paddle at the bottom
+ * of the screen moving horizontally, bricks in a rectangular region at the top of the
+ * screen, and either one or two balls bouncing around. A life is lost when the
+ * main ball goes past the bottom of the screen.
+ *
+ * @author Edison Ooi
+ */
 public class NormalLevel extends Level {
-
+    // Game elements specific to this level
     private Paddle myPaddle;
     private Ball myBall;
     private Ball myExtraBall;
 
-    private Group levelRoot;
-
+    /**
+     * Class constructor. Calls constructor of superclass Level.
+     *
+     * @param levelNumber cardinal number representing current level being created
+     * @param lives number of lives the player starts with
+     * @param root Group object that holds all Nodes rendered by Breakout game
+     * @param sceneWidth width, in pixels, of playable region of Breakout game
+     * @param sceneHeight height, in pixels, of playable region of Breakout game
+     * @param scoreboard Scoreboard object used to display game statistics to player
+     */
     public NormalLevel(int levelNumber, int lives, Group root, int sceneWidth, int sceneHeight, Scoreboard scoreboard) {
         super(levelNumber, lives, root, sceneWidth, sceneHeight, scoreboard);
     }
 
+    /**
+     * @param root Group object that holds all Nodes for Breakout game
+     * @param sceneWidth width, in pixels, of playable region of Breakout game
+     * @param sceneHeight height, in pixels, of playable region of Breakout game
+     */
     @Override
     public void setupChildNodes(Group root, int sceneWidth, int sceneHeight) {
         myPaddle = new Paddle(sceneWidth / 5.0, sceneHeight / 25.0, true);
@@ -38,6 +59,34 @@ public class NormalLevel extends Level {
         levelRoot = root;
     }
 
+    /**
+     * Sets initial properties of all balls in level.
+     */
+    @Override
+    public void setupBalls() {
+        myBall.setCenterX(sceneWidth * 0.5);
+        myBall.setCenterY(sceneHeight * 0.625 + Breakout.SCOREBOARD_HEIGHT);
+        myBall.setxVelocity(150);
+        myBall.setyVelocity(100);
+
+        //myExtraBall should be invisible and stationary until it is activated
+        myExtraBall.setCenterX(sceneWidth * 0.5);
+        myExtraBall.setCenterY(sceneHeight * 0.625 + Breakout.SCOREBOARD_HEIGHT);
+        myExtraBall.setFill(Color.GOLD);
+        myExtraBall.setOpacity(0);
+        myExtraBall.setxVelocity(0);
+        myExtraBall.setyVelocity(0);
+        extraBallIsActive = false;
+    }
+
+    /**
+     * Responds to the following cheat keys or moves paddle according to key:
+     * L - Gives player an extra life for this level.
+     * T - Doubles paddle speed for certain amount of time.
+     * S - Halves ball speed for certain amount of time.
+     *
+     * @param code KeyCode of key that was pressed
+     */
     @Override
     public void handleKeyInput(KeyCode code) {
         if(code == KeyCode.L) {
@@ -78,6 +127,11 @@ public class NormalLevel extends Level {
         myPaddle.move(code);
     }
 
+    /**
+     * Check collisions, update ball and paddle positions, and refresh scoreboard.
+     *
+     * @param elapsedTime amount of time since last update
+     */
     @Override
     public void step(double elapsedTime) {
         checkPaddleCollisions();
@@ -95,6 +149,8 @@ public class NormalLevel extends Level {
         scoreboard.refreshText(this);
     }
 
+    // Helper method for step() to move balls a certain amount based on time
+    // since last update.
     private void moveBalls(double elapsedTime) {
         myBall.move(elapsedTime);
 
@@ -103,6 +159,55 @@ public class NormalLevel extends Level {
         }
     }
 
+    // Helper method for step() to check if any ball has hit the paddle
+    // and bounce accordingly.
+    private void checkPaddleCollisions() {
+        if(Breakout.isIntersecting(myPaddle, myBall)) {
+            myBall.bounce(myPaddle);
+        }
+
+        if(Breakout.isIntersecting(myPaddle, myExtraBall)) {
+            myExtraBall.bounce(myPaddle);
+        }
+    }
+
+    // Helper method for step() to check if ball is hitting or going past a wall
+    // and bounce/lose life accordingly.
+    private void checkWallCollisions(Ball ball) {
+        if(ball.getCenterY() >= sceneHeight + Breakout.SCOREBOARD_HEIGHT) {
+            if(ball == myExtraBall) {
+                extraBallIsActive = false;
+                myExtraBall.setOpacity(0);
+            } else {
+                loseLife();
+            }
+        }
+
+        if(ball.getCenterX() - ball.getRadius() <= 0 ||
+                ball.getCenterX() + ball.getRadius() >= sceneWidth) {
+            ball.setxVelocity(ball.getxVelocity() * -1);
+        }
+
+        if(ball.getCenterY() - ball.getRadius() <= Breakout.SCOREBOARD_HEIGHT) {
+            ball.setyVelocity(ball.getyVelocity() * -1);
+        }
+    }
+
+    // Helper method for step() to check if paddle has gone off screen and warp
+    // it to the opposite side.
+    private void checkPaddleWarping() {
+        if(myPaddle.getX() >= sceneWidth) {
+            myPaddle.setX(0 - myPaddle.getWidth() / 2);
+        } else if(myPaddle.getX() + myPaddle.getWidth() <= 0) {
+            myPaddle.setX(sceneWidth - myPaddle.getWidth() / 2);
+        }
+    }
+
+    /**
+     * Perform necessary action to activate powerup obtained from breaking a brick.
+     *
+     * @param powerup Powerup that was activated
+     */
     @Override
     public void handlePowerup(Powerup powerup) {
         if(powerup == Powerup.NONE) {
@@ -128,61 +233,7 @@ public class NormalLevel extends Level {
         }
     }
 
-    private void checkPaddleCollisions() {
-        if(Breakout.isIntersecting(myPaddle, myBall)) {
-            myBall.bounce(myPaddle);
-        }
-
-        if(Breakout.isIntersecting(myPaddle, myExtraBall)) {
-            myExtraBall.bounce(myPaddle);
-        }
-    }
-
-    public void checkWallCollisions(Ball ball) {
-        if(ball.getCenterY() >= sceneHeight + Breakout.SCOREBOARD_HEIGHT) {
-            if(ball == myExtraBall) {
-                extraBallIsActive = false;
-                myExtraBall.setOpacity(0);
-            } else {
-                loseLife();
-            }
-        }
-
-        if(ball.getCenterX() - ball.getRadius() <= 0 ||
-                ball.getCenterX() + ball.getRadius() >= sceneWidth) {
-            ball.setxVelocity(ball.getxVelocity() * -1);
-        }
-
-        if(ball.getCenterY() - ball.getRadius() <= Breakout.SCOREBOARD_HEIGHT) {
-            ball.setyVelocity(ball.getyVelocity() * -1);
-        }
-    }
-
-    private void checkPaddleWarping() {
-        if(myPaddle.getX() >= sceneWidth) {
-            myPaddle.setX(0 - myPaddle.getWidth() / 2);
-        } else if(myPaddle.getX() + myPaddle.getWidth() <= 0) {
-            myPaddle.setX(sceneWidth - myPaddle.getWidth() / 2);
-        }
-    }
-
-    @Override
-    public void setupBalls() {
-        myBall.setCenterX(sceneWidth * 0.5);
-        myBall.setCenterY(sceneHeight * 0.625 + Breakout.SCOREBOARD_HEIGHT);
-        myBall.setxVelocity(150);
-        myBall.setyVelocity(100);
-
-        //myExtraBall should be invisible and stationary until it is activated
-        myExtraBall.setCenterX(sceneWidth * 0.5);
-        myExtraBall.setCenterY(sceneHeight * 0.625 + Breakout.SCOREBOARD_HEIGHT);
-        myExtraBall.setFill(Color.GOLD);
-        myExtraBall.setOpacity(0);
-        myExtraBall.setxVelocity(0);
-        myExtraBall.setyVelocity(0);
-        extraBallIsActive = false;
-    }
-
+    // Helper method for handlePowerup() to make extra ball visible and start moving.
     private void activateExtraBall() {
         myExtraBall.setOpacity(1);
         myExtraBall.setxVelocity(-160);
