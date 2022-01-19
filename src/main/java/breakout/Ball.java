@@ -9,6 +9,12 @@ import javafx.scene.shape.Rectangle;
 
 import java.util.Set;
 
+/**
+ * This class represents a ball that can bounce off bricks, paddles, walls, and other obstructions in Breakout, breaking
+ * them if applicable.
+ *
+ * @author Edison Ooi
+ */
 public class Ball extends Circle {
     // Constants
     public static final int DEFAULT_RADIUS = 10;

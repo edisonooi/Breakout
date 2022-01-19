@@ -12,6 +12,8 @@ import javafx.util.Duration;
  * and right moving vertically together. Bricks are placed in a rectangular
  * region in the center of the screen. A life is lost when the main ball goes
  * off any side of the screen.
+ *
+ * @author Edison Ooi
  */
 public class ExtremeLevel extends Level {
     // Game elements specific to this level
@@ -240,6 +242,7 @@ public class ExtremeLevel extends Level {
         }
     }
 
+    // Helper method for handlePowerup() to reset paddle visibility once invisible paddle powerup wears off
     private void makePaddlesVisible() {
         topPaddle.setOpacity(1);
         bottomPaddle.setOpacity(1);
