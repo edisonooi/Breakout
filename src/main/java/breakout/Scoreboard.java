@@ -1,22 +1,36 @@
 package breakout;
 
-import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 import java.util.*;
 
+/**
+ * This class is a modified Text object that displays the current level number, game score, number of lives remaining,
+ * and a list of active powerups. This class also keeps track of the total score in a particular Breakout instance.
+ *
+ * A Level object must exist in order for the Scoreboard to display useful information. Once the Scoreboard object has
+ * been instantiated, the current Level being played should call refreshText() each frame.
+ *
+ * @author Edison Ooi
+ */
 public class Scoreboard extends Text {
+    // Total cumulative score of Breakout game
     private int score;
-    private List<String> activePowerups;
 
+    // Text that is to be displayed on the scoreboard
     private String scoreboardText;
 
-    public Scoreboard(int width, int height, String startingText) {
-        super(width, height, startingText);
+    /**
+     * Class constructor. Initializes all instance variables and sets up desired properties of overarching Text object
+     *
+     * @param width width, in pixels, of scoreboard region on main scene
+     * @param height height, in pixels, of scoreboard region on main scene
+     */
+    public Scoreboard(int width, int height) {
+        super(width, height, "");
         this.score = 0;
-        this.activePowerups = new ArrayList<>();
         this.scoreboardText = "\nLevel:\nScore:\nLives:\nActive Powerups:\n";
         setText(scoreboardText);
         setWrappingWidth(width);
@@ -24,8 +38,14 @@ public class Scoreboard extends Text {
         setFill(Color.WHITE);
     }
 
+    /**
+     * Updates this Scoreboard's text based on the information of a level
+     *
+     * @param currentLevel the current level being played
+     */
     public void refreshText(Level currentLevel) {
-        activePowerups = currentLevel.getActivePowerups();
+        // Build a String representing all active powerups in current level
+        List<String> activePowerups = currentLevel.getActivePowerups();
 
         StringBuilder powerupString = new StringBuilder("");
 
@@ -39,10 +59,18 @@ public class Scoreboard extends Text {
         setText(scoreboardText);
     }
 
+    /**
+     * Adds a certain number of points to the current game score
+     *
+     * @param pointsToAdd
+     */
     public void updateScore(int pointsToAdd) {
         score += pointsToAdd;
     }
 
+    /**
+     * @return Number of cumulative points scored in current Breakout game
+     */
     public int getScore() {
         return this.score;
     }
