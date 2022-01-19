@@ -112,10 +112,20 @@ public abstract class Level {
         }
     }
 
+    /**
+     * Move all paddles according to key pressed.
+     * @param code KeyCode of key that was pressed
+     */
     public abstract void movePaddles(KeyCode code);
 
+    /**
+     * Helper method for handleKeyInput() to activate fast paddle cheat.
+     */
     public abstract void activateFastPaddleCheat();
 
+    /**
+     * Helper method for handleKeyInput() to activate slow ball cheat.
+     */
     public abstract void activateSlowBallCheat();
 
     /**
@@ -132,10 +142,20 @@ public abstract class Level {
      */
     public abstract void step(double elapsedTime);
 
+    /**
+     * Helper method for step() to move balls a certain amount based on time since last update.
+     */
     public abstract void checkPaddleCollisions();
 
+    /**
+     * Helper method for step() to check if ball is hitting or going past a wall and bounce/lose life accordingly.
+     * @param ball
+     */
     public abstract void checkWallCollisions(Ball ball);
 
+    /**
+     * Helper method for step() to check if paddle has gone off screen and warp it to the opposite side.
+     */
     public abstract void checkPaddleWarping();
 
     /**

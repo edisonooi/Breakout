@@ -82,6 +82,10 @@ public class ExtremeLevel extends Level {
         myBall.setyVelocity(100);
     }
 
+    /**
+     * Move all paddles according to key pressed.
+     * @param code KeyCode of key that was pressed
+     */
     @Override
     public void movePaddles(KeyCode code) {
         leftPaddle.move(code);
@@ -90,6 +94,9 @@ public class ExtremeLevel extends Level {
         bottomPaddle.move(code);
     }
 
+    /**
+     * Helper method for handleKeyInput() to activate fast paddle cheat.
+     */
     @Override
     public void activateFastPaddleCheat() {
         fastPaddleCheatHasBeenUsed = true;
@@ -107,6 +114,18 @@ public class ExtremeLevel extends Level {
         timeline.play();
     }
 
+    // Helper method for activateFastPaddleCheat() to reset paddle speeds to their original speed
+    private void resetPaddleSpeeds() {
+        leftPaddle.setSpeed(leftPaddle.getSpeed() / 2);
+        rightPaddle.setSpeed(rightPaddle.getSpeed() / 2);
+        topPaddle.setSpeed(topPaddle.getSpeed() / 2);
+        bottomPaddle.setSpeed(bottomPaddle.getSpeed() / 2);
+        fastPaddleCheatIsActive = false;
+    }
+
+    /**
+     * Helper method for handleKeyInput() to activate slow ball cheat.
+     */
     @Override
     public void activateSlowBallCheat() {
         slowBallCheatIsActive = true;
@@ -125,15 +144,6 @@ public class ExtremeLevel extends Level {
         timeline.play();
     }
 
-    // Helper method for activateFastPaddleCheat() to reset paddle speeds to their original speed
-    private void resetPaddleSpeeds() {
-        leftPaddle.setSpeed(leftPaddle.getSpeed() / 2);
-        rightPaddle.setSpeed(rightPaddle.getSpeed() / 2);
-        topPaddle.setSpeed(topPaddle.getSpeed() / 2);
-        bottomPaddle.setSpeed(bottomPaddle.getSpeed() / 2);
-        fastPaddleCheatIsActive = false;
-    }
-
     /**
      * Check collisions, update ball and paddle positions, and refresh scoreboard.
      *
@@ -149,6 +159,9 @@ public class ExtremeLevel extends Level {
         scoreboard.refreshText(this);
     }
 
+    /**
+     * Helper method for step() to move balls a certain amount based on time since last update.
+     */
     @Override
     public void checkPaddleCollisions() {
         if(Breakout.isIntersecting(leftPaddle, myBall)) {
@@ -162,6 +175,10 @@ public class ExtremeLevel extends Level {
         }
     }
 
+    /**
+     * Helper method for step() to check if ball is hitting or going past a wall and bounce/lose life accordingly.
+     * @param ball
+     */
     @Override
     public void checkWallCollisions(Ball ball) {
         if(ball.getCenterX() <= 0
@@ -172,6 +189,9 @@ public class ExtremeLevel extends Level {
         }
     }
 
+    /**
+     * Helper method for step() to check if paddle has gone off screen and warp it to the opposite side.
+     */
     @Override
     public void checkPaddleWarping() {
         if(topPaddle.getX() >= sceneWidth) {

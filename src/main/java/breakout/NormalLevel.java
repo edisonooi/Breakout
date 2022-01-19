@@ -79,11 +79,18 @@ public class NormalLevel extends Level {
         extraBallIsActive = false;
     }
 
+    /**
+     * Move all paddles according to key pressed.
+     * @param code KeyCode of key that was pressed
+     */
     @Override
     public void movePaddles(KeyCode code) {
         myPaddle.move(code);
     }
 
+    /**
+     * Helper method for handleKeyInput() to activate fast paddle cheat.
+     */
     @Override
     public void activateFastPaddleCheat() {
         fastPaddleCheatHasBeenUsed = true;
@@ -100,6 +107,9 @@ public class NormalLevel extends Level {
         timeline.play();
     }
 
+    /**
+     * Helper method for handleKeyInput() to activate slow ball cheat.
+     */
     @Override
     public void activateSlowBallCheat() {
         slowBallCheatIsActive = true;
@@ -154,8 +164,9 @@ public class NormalLevel extends Level {
         }
     }
 
-    // Helper method for step() to check if any ball has hit the paddle
-    // and bounce accordingly.
+    /**
+     * Helper method for step() to move balls a certain amount based on time since last update.
+     */
     @Override
     public void checkPaddleCollisions() {
         if(Breakout.isIntersecting(myPaddle, myBall)) {
@@ -167,8 +178,10 @@ public class NormalLevel extends Level {
         }
     }
 
-    // Helper method for step() to check if ball is hitting or going past a wall
-    // and bounce/lose life accordingly.
+    /**
+     * Helper method for step() to check if ball is hitting or going past a wall and bounce/lose life accordingly.
+     * @param ball
+     */
     @Override
     public void checkWallCollisions(Ball ball) {
         if(ball.getCenterY() >= sceneHeight + Breakout.SCOREBOARD_HEIGHT) {
@@ -190,8 +203,9 @@ public class NormalLevel extends Level {
         }
     }
 
-    // Helper method for step() to check if paddle has gone off screen and warp
-    // it to the opposite side.
+    /**
+     * Helper method for step() to check if paddle has gone off screen and warp it to the opposite side.
+     */
     @Override
     public void checkPaddleWarping() {
         if(myPaddle.getX() >= sceneWidth) {
