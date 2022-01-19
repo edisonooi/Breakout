@@ -100,7 +100,13 @@ public class Breakout {
     }
 
     /**
-     * Performs action for global cheat keys, or calls current level's key handler if key was not a global cheat key.
+     * Performs action for the following global cheat keys, or calls current level's key handler if key was
+     * not a global cheat key:
+     *
+     * 1-9 - Skip to level with that number, or highest level if number is higher than highest level.
+     * R - Reset current level including accumulated points.
+     * C - Advance to the next level, or end the game with a win if already on final level.
+     *
      * This method assumes setupGame() has already been called or currentLevel has been initialized otherwise.
      *
      * @param code KeyCode of key that was pressed

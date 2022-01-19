@@ -95,7 +95,7 @@ public abstract class Level {
     /**
      * Responds to the following cheat keys or moves all paddles according to key:
      * L - Gives player an extra life for this level.
-     * T - Doubles paddle speed for certain amount of time.
+     * T - Doubles paddle speed for certain amount of time. Can only be used once per level.
      * S - Halves ball speed for certain amount of time.
      *
      * @param code KeyCode of key that was pressed
