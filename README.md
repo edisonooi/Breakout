@@ -3,8 +3,13 @@
 This project implements the original Atari Breakout game, with customizable levels, special 
 powerups, and cheat keys. Built from scratch in JavaFX.
 
-## Features
+<p align="middle">
+    <img src="./images/normal_level.png" width="50%" alt="Breakout Normal Level">
+</p>
 
+
+
+## Features
 ### Customizable Levels
 Brick configurations for each level are fully customizable. By editing the level config files in 
 the resources folder, you can place whatever type of brick you want, wherever you want within 
@@ -14,6 +19,10 @@ the grid.
 Paddles can move not just horizontally, but also vertically. In extreme levels, there are 
 four paddles in play at once, with one on each side of the screen. Paddle control is done using 
 arrow keys. Horizontal paddles are controlled with left and right, while vertical paddles use up and down.
+
+<p align="middle">
+    <img src="./images/extreme_level.png" width="50%" alt="Breakout Extreme Level">
+</p>
 
 ### Powerup Bricks
 Some bricks, when broken, will give you a powerup (or anti-powerup!) such as spawning a new ball,
